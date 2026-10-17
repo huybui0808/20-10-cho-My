@@ -1,0 +1,184 @@
+<!--
+=====================================================================
+  WEB 20-10 CHO VŨ ĐẶNG THẢO MY  —  Bùi Trung Huy gửi tặng   (bản 2)
+=====================================================================
+
+  CẤU TRÚC THƯ MỤC (đặt đúng tên, cùng cấp với index.html):
+
+    index.html
+    style.css
+    script.js
+    VideoMy.mp4          <-- video 9:16, dài ~23 giây  (xem hướng dẫn bên dưới)
+    Nhacrieng.mp3        <-- nhạc ở cảnh vũ trụ + phong bì (tự nhỏ -> to êm ái)
+    anhMy/               <-- toàn bộ ảnh (Anhchinh.png, Anhqrcholap.png và các ảnh sẽ bay ở cảnh vũ trụ)
+
+  ---------------------------------------------------------------------
+  DANH SÁCH ẢNH BAY Ở CẢNH VŨ TRỤ
+  ---------------------------------------------------------------------
+  Mở script.js, tìm  const PHOTOS = [ ... ]  rồi ghi tên các ảnh (không cần ghi ".png").
+  Ví dụ thêm ảnh:  'Anhhocsinh6', 'Anhmoi1', ...   -> đủ 40 ảnh là đẹp nhất.
+  Thứ tự trong danh sách không quan trọng, web tự xáo trộn ngẫu nhiên cho bay.
+  Khuyên dùng ảnh PNG/JPG cạnh dài ~800px, mỗi ảnh < 250KB để máy yếu vẫn mượt.
+
+  ---------------------------------------------------------------------
+  CÁCH HIỆN VIDEO (VideoMy.mp4)
+  ---------------------------------------------------------------------
+  1) Bỏ file video vào CÙNG thư mục với index.html và đặt tên đúng: VideoMy.mp4
+     (nếu để trong anhMy/ cũng được, web sẽ tự tìm thêm ở đó).
+  2) Định dạng nên dùng để chạy được trên mọi điện thoại:
+        - Container MP4, video H.264 (AVC), âm thanh AAC
+        - Tỉ lệ 9:16 (dọc), ví dụ 720x1280, dài ~23 giây
+        - Nên < 20MB cho mượt trên 4G.
+  3) Video nằm trong thẻ <video id="vid"> ở cuối file này:
+        playsinline          -> chạy ngay trong trang (iPhone không bật toàn màn hình)
+        không có "controls"  -> người xem không tạm dừng/tua được
+        không có "loop"      -> chạy xong thì đứng hình rồi mờ đi để hiện chữ
+     Video tự phát ngay khi bấm "Xem tiếp" ở cảnh phong bì.
+  4) Muốn đổi tên/đường dẫn video: mở script.js, tìm CONFIG.video và sửa.
+  5) Phải chạy web qua hosting (GitHub Pages, Netlify, Vercel...) hoặc máy chủ cục bộ.
+     Mở trực tiếp file:// có thể bị chặn nhạc/video trên một số trình duyệt.
+
+  MẸO TEST TRÊN MÁY TÍNH:  thêm  ?force=mobile  vào cuối địa chỉ để xem bản điện thoại
+                           (vd: http://localhost:8000/?force=mobile)
+=====================================================================
+-->
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#ffc6da" />
+    <title>Chúc mừng 20-10</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Mali:wght@400;500;600&family=Pacifico&family=Quicksand:wght@500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-stage="boot">
+    <!-- Nền hồng mờ + ảnh tập thể -->
+    <div class="bg" id="bg"></div>
+
+    <!-- ============ BẢN LAPTOP / PC: chỉ hiện mã QR ============ -->
+    <section class="desktop" id="desktop" hidden>
+      <div class="decor" id="dkDecor"></div>
+      <div class="dk-card">
+        <p class="dk-top">Chúc mừng ngày Quốc tế Phụ nữ</p>
+        <p class="dk-num">20-10</p>
+        <p class="dk-sub">Hãy dùng thiết bị di động quét mã này để mở</p>
+        <button
+          class="qr-frame"
+          id="qrBtn"
+          type="button"
+          aria-label="Phóng to mã QR"
+        >
+          <span class="qr-glow"></span>
+          <span class="qr-box">
+            <img
+              id="qrImg"
+              src="anhMy/Anhqrcholap.png"
+              alt="Mã QR"
+              decoding="async"
+            />
+            <span class="qr-missing" id="qrMissing"
+              >Chưa có ảnh QR<br /><small>anhMy/Anhqrcholap.png</small></span
+            >
+          </span>
+        </button>
+        <p class="dk-hint">Bấm vào mã QR để phóng to cho dễ quét</p>
+      </div>
+    </section>
+    <div class="lightbox" id="qrLight" aria-hidden="true">
+      <div class="lb-box"><img id="qrBig" alt="Mã QR phóng to" /></div>
+      <p class="lb-hint">Chạm vào bất kỳ đâu để đóng</p>
+    </div>
+
+    <!-- ============ BẢN ĐIỆN THOẠI / MÁY TÍNH BẢNG ============ -->
+    <main class="app" id="app" hidden>
+      <!-- 0. Mật khẩu (giữ nguyên) -->
+      <section class="stage is-active" id="gate">
+        <div class="gate-card" id="gateCard">
+          <h1 class="gate-title">Hãy nhập mật khẩu</h1>
+          <p class="gate-hint">mật khẩu là ngày tháng năm sinh của bạn</p>
+          <div class="slots" id="slots" aria-live="polite"></div>
+          <p class="gate-msg" id="gateMsg">&nbsp;</p>
+          <div class="keypad" id="keypad"></div>
+        </div>
+      </section>
+
+      <!-- 1. Phong bì mở đầu -->
+      <section class="stage" id="s1">
+        <div class="decor" id="s1Decor"></div>
+        <div class="env-wrap" id="envWrap1"></div>
+        <button class="btn-main btn-start" id="btnStart" type="button">
+          <svg class="bi"><use href="#f-blossom" /></svg><span>Bắt đầu</span
+          ><svg class="bi"><use href="#f-blossom" /></svg>
+        </button>
+      </section>
+
+      <!-- 2. Không gian vũ trụ: ảnh bay -> thu lại -> nổ -> phong bì lời chúc -->
+      <section class="stage" id="space">
+        <div class="space-bg">
+          <i class="sky k1" id="k1"></i><i class="sky k2" id="k2"></i
+          ><i class="sky k3" id="k3"></i>
+        </div>
+        <div class="space-view" id="spaceView">
+          <div class="sp-layer" id="spLayer"></div>
+          <div class="hearts" id="hearts"></div>
+          <div class="fx" id="fx"></div>
+          <div class="core" id="core"></div>
+          <div class="env-wrap" id="envWrap2"></div>
+        </div>
+        <div class="flash" id="flash"></div>
+        <p class="sp-hint" id="spHint">
+          Kéo ảnh để di chuyển &middot; vuốt vào khoảng trống để lướt qua lại
+          &middot; chụm hai ngón để phóng to
+        </p>
+        <div class="sp-next" id="spNext">
+          <button class="btn-main" type="button">
+            <svg class="bi"><use href="#f-daisy" /></svg><span>Xem tiếp</span
+            ><svg class="bi"><use href="#f-daisy" /></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- 3. Video + chữ kết -->
+      <section class="stage" id="vs">
+        <div class="vid-wrap" id="vidWrap">
+          <!-- VIDEO: xem hướng dẫn ở đầu file. Không controls, không loop. -->
+          <video
+            id="vid"
+            playsinline
+            webkit-playsinline
+            preload="none"
+            disablepictureinpicture
+            disableremoteplayback
+            controlsList="nodownload noplaybackrate noremoteplayback"
+            x-webkit-airplay="deny"
+          ></video>
+        </div>
+        <div class="vs-dim" id="vsDim"></div>
+        <p class="vs-text" id="vsT1" aria-live="polite"></p>
+        <p class="vs-text" id="vsT2">Cảm ơn bạn đã xem hết</p>
+        <p class="vs-text" id="vsT3">Tôi mong chờ phản hồi từ bạn</p>
+      </section>
+
+      <div class="veil" id="veil"></div>
+    </main>
+
+    <div class="rotate-note" id="rotateNote">
+      <div>
+        <i></i>
+        <p>Hãy xoay dọc điện thoại nhé</p>
+      </div>
+    </div>
+
+    <audio id="bgm" preload="none" playsinline></audio>
+    <script src="script.js"></script>
+  </body>
+</html>
