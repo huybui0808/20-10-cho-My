@@ -427,7 +427,8 @@ body[data-stage="vs"] .bg {
   --W: min(90vw, 380px, calc(var(--sv) * 41));
   --lift: calc(var(--H) * 1.25);
   --letter-closed: min(clamp(165px, 20vw, 200px), calc(var(--H) * 1.1));
-  --letter-open: min(480px, calc(100svh - 110px));
+  --letter-open: min(clamp(440px, 20vw, 460px), calc(100svh - 110px));
+  /* z-index: 1000; */
   margin-top: calc(var(--lift) * 0.9);
   transform: scale(0.1);
 }
@@ -532,7 +533,7 @@ body[data-stage="vs"] .bg {
   left: 0;
   right: 0;
   top: 0;
-  height: 350px;
+  height: clamp(325px, 20vw, 350px);
   padding: clamp(16px, calc(var(--W) * 0.055), 24px) 22px 28px;
   display: flex;
   flex-direction: column;
@@ -842,6 +843,24 @@ body[data-stage="vs"] .bg {
 .sp-deco svg {
   display: block;
 }
+/* chữ mở đầu cảnh vũ trụ: hiện lên rồi bay cùng ảnh */
+.sp-big {
+  font: 700 clamp(26px, 7.6vw, 34px) / 1.2 var(--font-script);
+  color: #fff;
+  text-shadow:
+    0 0 8px #ff4f9a,
+    0 0 22px #ff4f9a,
+    0 0 40px rgba(255, 79, 154, 0.6);
+  animation: spPop 1.2s ease both;
+}
+@keyframes spPop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .lite .sp-photo {
   box-shadow: 0 0 8px rgba(255, 120, 175, 0.55);
 }
@@ -1109,17 +1128,6 @@ body[data-stage="vs"] .bg {
   pointer-events: none;
   background: #000;
 }
-.vs-dim {
-  position: absolute;
-  inset: 0;
-  background: #04010a;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.4s ease;
-}
-.vs-dim.on {
-  opacity: 0.9;
-}
 .vs-text {
   position: absolute;
   left: 0;
@@ -1167,19 +1175,379 @@ body[data-stage="vs"] .bg {
     opacity: 0;
   }
 }
-#vsT3::after {
-  content: "";
+
+/* =====================================================================
+   4. CẢNH CUỐI: video mờ đi -> đốm sáng/tim/hoa bay lên -> trái tim lớn xoay -> chữ
+   (chỉ animate transform + opacity)
+   ===================================================================== */
+#vs.out .vid-wrap {
+  opacity: 0;
+  transform: scale(1.05);
+  transition:
+    opacity 1.1s ease,
+    transform 1.3s ease;
+}
+.fin {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fin-rise {
+  position: absolute;
+  inset: 0;
+}
+.lv {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.lv svg {
   display: block;
-  width: 22px;
-  height: 20px;
-  margin: 14px auto 0;
-  background: #ff7fae;
+  width: 100%;
+  height: 100%;
+}
+.fspk {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  opacity: 0;
+  /* đốm sáng bé, lõi sáng mềm (không thành chấm trắng gắt) */
+  background: radial-gradient(
+    circle,
+    rgba(255, 250, 252, 0.95) 0,
+    #fff 14%,
+    currentColor 42%,
+    rgba(255, 255, 255, 0) 72%
+  );
+  will-change: transform, opacity;
+}
+.fin-cv {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.hb-glow {
+  --g: min(96vw, 440px);
+  position: absolute;
+  left: calc(50% - var(--g) / 2);
+  top: calc(38% - var(--g) / 2);
+  width: var(--g);
+  height: var(--g);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 95, 165, 0.34) 0,
+    rgba(255, 95, 165, 0.12) 40%,
+    rgba(255, 95, 165, 0) 68%
+  );
+  opacity: 0;
+  transition: opacity 2s ease;
+  will-change: transform, opacity;
+}
+#vs.fin .hb-glow {
+  opacity: 1;
+}
+.hb-glow.beat {
+  animation: glBeat 1.3s ease-in-out infinite;
+}
+@keyframes glBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.1);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.06);
+  }
+}
+.hb-stage {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  width: 0;
+  height: 0;
+  perspective: 760px;
+}
+.hb,
+.hb-in {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+.hb.spin {
+  animation: hbSpin 9s linear infinite;
+}
+@keyframes hbSpin {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+.hb-in.beat {
+  animation: hbBeat 1.3s ease-in-out infinite;
+}
+@keyframes hbBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.07);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.045);
+  }
+}
+.fdot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--z, 9px);
+  height: var(--z, 9px);
+  margin: calc(var(--z, 9px) / -2) 0 0 calc(var(--z, 9px) / -2);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #fff 0,
+    #fff 20%,
+    currentColor 50%,
+    rgba(255, 255, 255, 0) 74%
+  );
+  animation: fTw var(--tw, 2.4s) ease-in-out var(--td, 0s) infinite alternate;
+}
+@keyframes fTw {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+#vsT1 {
+  top: 68%;
+  font-size: clamp(30px, 9.4vw, 44px);
+  text-shadow:
+    0 0 6px currentColor,
+    0 0 18px currentColor;
+}
+/* chữ rơi: từng chữ rơi xuống rồi rơi đi, chỉ dùng transform + opacity */
+.vs-text.fall {
+  transition: none;
+}
+.fw {
+  display: inline-block;
+  white-space: nowrap;
+}
+.fch {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.fall.in .fch {
+  animation: fcIn 0.85s cubic-bezier(0.3, 1.35, 0.5, 1) calc(var(--i) * 55ms)
+    both;
+}
+.fall.out .fch {
+  animation: fcOut 0.7s cubic-bezier(0.5, 0, 0.9, 0.6) calc(var(--i) * 30ms)
+    both;
+}
+@keyframes fcIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -80px, 0) rotate(var(--r));
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fcOut {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 110px, 0) rotate(calc(var(--r) * -1));
+  }
+}
+
+/* chữ mưa rơi chậm (nằm dưới trái tim) */
+.fin-rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.rain-t {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  white-space: nowrap;
+  font: 700 18px/1.2 var(--font-script);
+  text-shadow: 0 0 8px currentColor;
+  will-change: transform, opacity;
+}
+
+/* vòng quét vân tay */
+.fp-scan {
+  position: absolute;
+  left: 50%;
+  bottom: calc(
+    env(safe-area-inset-bottom) + 64px
+  ); /* vị trí như cảm biến vân tay mở khóa màn hình: đổi số này để nâng/hạ */
+  z-index: 5;
+  width: 92px;
+  height: 92px;
+  margin: 0 0 0 -46px;
+  border-radius: 50%;
+  pointer-events: auto;
+  touch-action: none;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity 0.8s,
+    transform 0.8s cubic-bezier(0.2, 1.3, 0.4, 1);
+  -webkit-touch-callout: none;
+  visibility: hidden;
+}
+.fp-scan.show {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}
+.fp-scan.done {
+  opacity: 0;
+  transform: scale(1.7);
+  pointer-events: none;
+  transition:
+    opacity 0.7s ease-in,
+    transform 0.8s ease-out;
+}
+.fp-scan::before {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 120, 180, 0.38),
+    rgba(255, 120, 180, 0) 70%
+  );
+  animation: fpPulse 1.8s ease-in-out infinite;
+}
+.fp-scan svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.fp-scan .fp-ico {
+  left: 22px;
+  top: 22px;
+  width: 48px;
+  height: 48px;
+  fill: none;
+  stroke: #ffc9de;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.fp-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 2;
+}
+.fp-ring {
+  fill: none;
+  stroke: #ffd9e8;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 277;
+  stroke-dashoffset: 277;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.3s ease-out;
+}
+.fp-scan.hold .fp-ring {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 2s linear;
+}
+.fp-scan.full .fp-ring {
+  stroke-dashoffset: 0;
+}
+.fp-line {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: #fff;
+  opacity: 0;
+}
+.fp-scan.hold .fp-line {
   opacity: 0.9;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29.6'%3E%3Cpath d='M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.2 6.1-9.3 16-12.1 16-21.2C32 3.8 28.2 0 23.6 0z'/%3E%3C/svg%3E")
-    center/contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 29.6'%3E%3Cpath d='M23.6 0c-3.4 0-6.3 2.7-7.6 5.6C14.7 2.7 11.8 0 8.4 0 3.8 0 0 3.8 0 8.4c0 9.4 9.5 11.9 16 21.2 6.1-9.3 16-12.1 16-21.2C32 3.8 28.2 0 23.6 0z'/%3E%3C/svg%3E")
-    center/contain no-repeat;
-  animation: pulse 1.4s ease-in-out infinite alternate;
+  animation: fpSweep 0.9s ease-in-out infinite alternate;
+}
+.fp-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  margin-bottom: 22px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font: 600 14px/1.3 var(--font-hand);
+  color: #ffd6e6;
+  text-shadow: 0 0 8px rgba(255, 105, 175, 0.8);
+}
+@keyframes fpSweep {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 46px, 0);
+  }
+}
+@keyframes fpPulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
 }
 
 /* ---------- Chuyển cảnh: màn đen loang từ con dấu tim ---------- */

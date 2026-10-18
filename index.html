@@ -10,6 +10,7 @@
     script.js
     VideoMy.mp4          <-- video 9:16, dài ~23 giây  (xem hướng dẫn bên dưới)
     Nhacrieng.mp3        <-- nhạc ở cảnh vũ trụ + phong bì (tự nhỏ -> to êm ái)
+    Nhaclangmang.mp3     <-- nhạc cảnh cuối (phát khi video kết thúc, hiện trái tim)
     anhMy/               <-- toàn bộ ảnh (Anhchinh.png, Anhqrcholap.png và các ảnh sẽ bay ở cảnh vũ trụ)
 
   ---------------------------------------------------------------------
@@ -32,7 +33,7 @@
   3) Video nằm trong thẻ <video id="vid"> ở cuối file này:
         playsinline          -> chạy ngay trong trang (iPhone không bật toàn màn hình)
         không có "controls"  -> người xem không tạm dừng/tua được
-        không có "loop"      -> chạy xong thì đứng hình rồi mờ đi để hiện chữ
+        không có "loop"      -> chạy xong (sự kiện "ended") video mờ đi rồi ẩn hẳn, chuyển sang cảnh trái tim
      Video tự phát ngay khi bấm "Xem tiếp" ở cảnh phong bì.
   4) Muốn đổi tên/đường dẫn video: mở script.js, tìm CONFIG.video và sửa.
   5) Phải chạy web qua hosting (GitHub Pages, Netlify, Vercel...) hoặc máy chủ cục bộ.
@@ -162,10 +163,39 @@
             x-webkit-airplay="deny"
           ></video>
         </div>
-        <div class="vs-dim" id="vsDim"></div>
+        <!-- CẢNH CUỐI (hiện sau khi video kết thúc): đốm sáng, tim, hoa bay lên + trái tim lớn xoay -->
+        <div class="fin" id="fin">
+          <div class="hb-glow" id="hbGlow"></div>
+          <div class="fin-rise" id="finRise"></div>
+          <div class="fin-rain" id="finRain"></div>
+          <canvas class="fin-cv" id="finCv"></canvas>
+          <!-- Vòng quét vân tay: đặt ngón tay vào và giữ ~2 giây (CONFIG.scanHold) -->
+          <div
+            class="fp-scan"
+            id="fpScan"
+            role="button"
+            aria-label="Đặt ngón tay vào và giữ 2 giây"
+          >
+            <svg class="fp-r" viewBox="0 0 92 92" aria-hidden="true">
+              <circle class="fp-track" cx="46" cy="46" r="44" />
+              <circle class="fp-ring" cx="46" cy="46" r="44" />
+            </svg>
+            <svg class="fp-ico" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M8 26v-4c0-9 7-16 16-16s16 7 16 16v2" />
+              <path
+                d="M13 37c1-3 1-6 1-9v-6c0-5 4-9 10-9s10 4 10 9v3c0 4 1 8 3 12"
+              />
+              <path
+                d="M19 41c1-3 2-7 2-11v-8c0-2 1-3 3-3s3 1 3 3v7c0 5 1 9 3 13"
+              />
+              <path d="M31 42c-1-3-2-6-2-10" />
+              <path d="M8 32c0 3-1 6-3 9" />
+            </svg>
+            <i class="fp-line"></i>
+            <p class="fp-hint">Đặt ngón tay vào và giữ 2 giây</p>
+          </div>
+        </div>
         <p class="vs-text" id="vsT1" aria-live="polite"></p>
-        <p class="vs-text" id="vsT2">Cảm ơn bạn đã xem hết</p>
-        <p class="vs-text" id="vsT3">Tôi mong chờ phản hồi từ bạn</p>
       </section>
 
       <div class="veil" id="veil"></div>
