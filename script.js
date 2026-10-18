@@ -44,6 +44,7 @@
       "Anh làm sao có thể",
       "ngừng suy nghĩ đến đôi môi em",
       "dù chỉ một giây",
+      " ",
       "Mặc cho ta đi bên nhau bao lâu",
       "Em đâu hay anh cần",
       "bao câu nói anh yêu em",
@@ -76,8 +77,8 @@
       "Dù mênh mông đại dương",
       "Phai đi sắc hương mơ màng",
       "Anh vẫn yêu mình em thôi đấy",
-      "Em ơi! Đừng để tình anh dở dang",
-      "..",
+      "Em ơi!",
+      "Đừng để tình anh dở dang",
       "       ",
       ".",
       "       ",
@@ -125,7 +126,7 @@
       rainCount: 9, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
       rainCountLite: 8,
       rainFall: 13000, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
-      rainGap: 2120, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
+      rainGap: 2100, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
     }, // ms mỗi câu đứng yên trước khi rơi đi
     scanHold: 2000, // ms phải giữ ngón tay ở vòng quét vân tay
     imgDir: "anhMy/",
