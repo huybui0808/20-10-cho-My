@@ -1,12 +1,14 @@
 /* =====================================================================
    WEB 20-10 — script.js (bản 3)
-   Mọi thứ cần chỉnh (mật khẩu, tên file, danh sách ảnh, lời chúc) nằm ở khối CONFIG / PHOTOS / WISHES.
+   Mọi thứ cần chỉnh (địa chỉ kiểm tra mật khẩu, tên file, danh sách ảnh, lời chúc) nằm ở khối CONFIG / PHOTOS / WISHES.
    Hiệu năng: chỉ animate transform + opacity; cảnh vũ trụ chạy bằng MỘT vòng requestAnimationFrame chung.
    ===================================================================== */
 (() => {
   "use strict";
   const CONFIG = {
-    passApi: "https://check-mat-khau.buitrunghuy20082.workers.dev/",
+    // Mật khẩu KHÔNG còn nằm trong code: được kiểm tra ở Cloudflare Worker (xem worker.js).
+    // Dán địa chỉ Worker của bạn vào đây, ví dụ "https://check-mat-khau.ten-ban.workers.dev"
+    passApi: "https://check-mat-khau.buitrunghuy20082.workers.dev",
     toName: "Vũ Đặng Thảo My",
     fromName: "Bùi Trung Huy",
     qrImage: "anhMy/Anhqrcholap.png",
@@ -90,8 +92,8 @@
       "Dù mênh mông đại dương",
       "Phai đi sắc hương mơ màng",
       "Anh vẫn yêu mình em thôi đấy",
-      "Em ơi!",
-      "Đừng để tình anh dở dang",
+      "Em ơi! Đừng để tình anh dở dang",
+      " ",
       "       ",
       ".",
       "       ",
@@ -149,8 +151,8 @@
       "Dù mênh mông đại dương",
       "Phai đi sắc hương mơ màng",
       "Anh vẫn yêu mình em thôi đấy",
-      "Em ơi!",
-      "Đừng để tình anh dở dang",
+      "Em ơi! Đừng để tình anh dở dang",
+      " ",
       " ",
       "Dù lời nói có là gió bay",
       "Dù ngày tháng có còn đổi thay",
@@ -174,16 +176,17 @@
       ".",
       ".",
       ".",
-      ".",
-      ".",
+      
+      
     ],
 
     fallHold: 1800,
     // ===== MẬT ĐỘ ĐỐM SÁNG Ở CẢNH CUỐI: tăng số = dày/đẹp hơn nhưng nặng hơn; "Lite" là số dùng cho điện thoại yếu =====
     density: {
-      heartDots: 900, // số đốm sáng tạo nên nét trái tim
+      heartDots: 700, // số đốm sáng tạo nên nét trái tim
       heartDotsLite: 600,
       heartThick: 0.07, // độ dày nét viền trái tim (0.03 mảnh ... 0.12 rất dày)
+      heartDepth: 0.16, // độ dày trái tim theo chiều SÂU khi xoay (0.05 mỏng ... 0.3 rất dày)
       heartDotSize: 1, // nhân kích thước đốm của trái tim (1 = mặc định, 1.3 = đốm to hơn)
       sparkPool: 420, // tổng số đốm sáng nhỏ bay lên (nền)
       sparkPoolLite: 200,
@@ -202,7 +205,7 @@
     imgDir: "anhMy/",
     // ----- CẢNH VŨ TRỤ -----
     spawnEvery: 0.65, // giây giữa 2 vật thể bay lên. TĂNG = ít vật thể cùng lúc, thưa và nhẹ hơn. GIẢM = dày hơn
-    flyFor: 25000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
+    flyFor: 1000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
     wishWordMs: 70, // ms giữa 2 chữ khi hiện lời chúc trên lá thư (tăng = hiện chậm hơn). Nhớ chỉnh cùng số trong style.css (--wd)
   };
   const ZOOM_MIN = 0.65,
@@ -727,14 +730,30 @@
       }
       async function check() {
         locked = true;
-        if (buf === CONFIG.password) {
+        let ok = false,
+          netErr = false;
+        try {
+          // gửi dạng text/plain để trình duyệt KHÔNG phải "hỏi trước" (preflight) -> ít chỗ có thể lỗi hơn; Worker vẫn đọc được JSON
+          const r = await fetch(CONFIG.passApi, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify({ p: buf }),
+          });
+          if (!r.ok) throw new Error("Worker trả về HTTP " + r.status);
+          ok = (await r.json()).ok === true;
+        } catch (e) {
+          netErr = true;
+          // mở F12 -> Console để biết lý do thật (sai địa chỉ / chưa deploy / bị chặn CORS...)
+          console.error("[Mật khẩu] Không gọi được Worker:", CONFIG.passApi, e);
+        }
+        if (ok) {
           slotsEl.classList.add("ok");
           say("");
           await wait(380);
           locked = false;
           done();
         } else {
-          say("Nhập sai rồi, thử lại nhé");
+          say(netErr ? "Mạng đang lỗi, thử lại nhé" : "Nhập sai rồi, thử lại nhé");
           slotsEl.classList.remove("shake");
           reflow(slotsEl);
           slotsEl.classList.add("shake");
@@ -1224,6 +1243,133 @@
       nextB.onclick = gather;
     }
 
+    /* VỤ NỔ MẢNH VỠ: lõi pha lê vỡ thành các mảnh nhọn xoay lộn 3D, kèm sóng xung kích, tia sáng, tia lửa và rung nhẹ.
+       Chỉ animate transform + opacity (WAAPI, chạy trên compositor); mọi phần tử tự gỡ sau khi bay xong. */
+    function shatter(cx, cy) {
+      const SH = ["#ff8fb8", "#ffb3cf", "#ff6f9f", "#ffd1e1", "#ffd980", "#ffffff"],
+        DK = ["#d94f86", "#c23c78", "#a455c9", "#e07a9f"],
+        base = "position:absolute;left:0;top:0;pointer-events:none;",
+        pc = (n) => n.toFixed(0) + "%",
+        T = (x, y, a, b, c, sc) =>
+          `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) perspective(520px) rotateX(${a.toFixed(0)}deg) rotateY(${b.toFixed(0)}deg) rotateZ(${c.toFixed(0)}deg) scale(${sc})`,
+        jobs = [];
+      // 1) hai vòng sóng xung kích lan ra
+      for (let i = 0; i < 2; i++) {
+        const r = document.createElement("i");
+        r.style.cssText =
+          base +
+          `width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;border:${i ? 1.5 : 2.5}px solid ${i ? "rgba(255,190,220,.85)" : "rgba(255,255,255,.95)"}`;
+        jobs.push([
+          r,
+          [
+            { transform: `translate(${cx}px,${cy}px) scale(.1)`, opacity: 0.95 },
+            { opacity: 0.55, offset: 0.4 },
+            {
+              transform: `translate(${cx}px,${cy}px) scale(${i ? 5 : 6.5})`,
+              opacity: 0,
+            },
+          ],
+          { duration: 850 + i * 300, delay: i * 130, easing: "cubic-bezier(.1,.7,.2,1)" },
+        ]);
+      }
+      // 2) tia sáng bắn ra từ tâm
+      const nR = LITE ? 14 : 24;
+      for (let i = 0; i < nR; i++) {
+        const g = (i / nR) * 360 + rand(-6, 6),
+          len = rand(38, 80),
+          dist = rand(130, 300),
+          r = document.createElement("i");
+        r.style.cssText =
+          base +
+          `width:${len.toFixed(0)}px;height:2.5px;margin-top:-1.25px;border-radius:2px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(255,255,255,0),${pick(SH)} 60%,#fff)`;
+        jobs.push([
+          r,
+          [
+            {
+              transform: `translate(${cx}px,${cy}px) rotate(${g.toFixed(1)}deg) translateX(24px) scaleX(.15)`,
+              opacity: 1,
+            },
+            { opacity: 0.9, offset: 0.35 },
+            {
+              transform: `translate(${cx}px,${cy}px) rotate(${g.toFixed(1)}deg) translateX(${dist.toFixed(0)}px) scaleX(1)`,
+              opacity: 0,
+            },
+          ],
+          { duration: rand(650, 1000), easing: "cubic-bezier(.1,.8,.25,1)" },
+        ]);
+      }
+      // 3) MẢNH VỠ pha lê: vài mảnh lớn (chậm, gần) + nhiều mảnh nhỏ (nhanh, xa), xoay lộn 3D, rơi nhẹ rồi mờ
+      const nS = LITE ? 28 : 52;
+      for (let i = 0; i < nS; i++) {
+        const size = i < 7 ? rand(38, 56) : i % 3 ? rand(16, 30) : rand(9, 16),
+          big = size / 56,
+          g = (i / nS) * 6.283 + rand(-0.25, 0.25),
+          d = rand(0.55, 1) * (300 - 170 * big),
+          spin = 1 - 0.5 * big,
+          ax = rand(-540, 540) * spin,
+          ay = rand(-540, 540) * spin,
+          az = rand(-360, 360) * spin,
+          drop = rand(60, 150),
+          // đa giác nhọn ngẫu nhiên (tam giác / tứ giác) -> mảnh vỡ
+          A = [rand(0, 25), rand(0, 30)],
+          B = [rand(72, 100), rand(5, 45)],
+          C = [rand(25, 75), rand(78, 100)],
+          poly =
+            Math.random() < 0.4
+              ? `polygon(${pc(A[0])} ${pc(A[1])},${pc(B[0])} ${pc(B[1])},${pc(rand(80, 100))} ${pc(rand(60, 90))},${pc(C[0])} ${pc(C[1])})`
+              : `polygon(${pc(A[0])} ${pc(A[1])},${pc(B[0])} ${pc(B[1])},${pc(C[0])} ${pc(C[1])})`,
+          h = size * rand(0.7, 1.15),
+          el = document.createElement("i");
+        // nền 3 mảng sáng - màu - tối tạo cảm giác mặt cắt pha lê
+        el.style.cssText =
+          base +
+          `width:${size.toFixed(0)}px;height:${h.toFixed(0)}px;margin:${(-h / 2).toFixed(1)}px 0 0 ${(-size / 2).toFixed(1)}px;clip-path:${poly};background:linear-gradient(${rand(100, 170).toFixed(0)}deg,rgba(255,255,255,.98) 0 24%,${pick(SH)} 24% 64%,${pick(DK)} 64%)`;
+        const ex = cx + Math.cos(g) * d,
+          ey = cy + Math.sin(g) * d;
+        jobs.push([
+          el,
+          [
+            { transform: T(cx, cy, 0, 0, 0, 0.25), opacity: 1, easing: "cubic-bezier(.05,.85,.2,1)" },
+            { transform: T(ex, ey, ax * 0.55, ay * 0.55, az * 0.55, 1), opacity: 1, offset: 0.5, easing: "ease-in" },
+            {
+              transform: T(
+                ex + Math.cos(g) * d * 0.1 + rand(-20, 20),
+                ey + Math.sin(g) * d * 0.1 + drop,
+                ax,
+                ay,
+                az,
+                0.8,
+              ),
+              opacity: 0,
+            },
+          ],
+          { duration: rand(1500, 2300) * (0.85 + 0.3 * big) },
+        ]);
+      }
+      const frag = document.createDocumentFragment();
+      jobs.forEach(([el]) => frag.appendChild(el));
+      fx.appendChild(frag);
+      jobs.forEach(([el, frames, opt]) => {
+        const a = el.animate(frames, { fill: "both", ...opt });
+        a.onfinish = () => el.remove();
+      });
+      // 4) tia lửa nhỏ + vài ánh sao (dùng lại hàm burst sẵn có)
+      burst(fx, cx, cy, LITE ? 10 : 18, "dot", 120, 330, 40, 1300);
+      burst(fx, cx, cy, 6, "sparkle", 60, 190, 20, 1300);
+      // 5) rung nhẹ cả cảnh (cộng thêm vào transform sẵn có, không ghi đè)
+      view.animate(
+        [
+          { transform: "translate(0,0)" },
+          { transform: "translate(-5px,3px)" },
+          { transform: "translate(4px,-3px)" },
+          { transform: "translate(-3px,-2px)" },
+          { transform: "translate(2px,2px)" },
+          { transform: "translate(0,0)" },
+        ],
+        { duration: 420, composite: "add", easing: "ease-out" },
+      );
+    }
+
     async function gather() {
       nextB.onclick = null;
       nextB.classList.remove("show");
@@ -1254,8 +1400,7 @@
       await wait(1350);
       core.classList.add("boom");
       flash.classList.add("go");
-      burst(fx, gx, gy, LITE ? 16 : 26, "petal", 90, 260, 50, 1500);
-      burst(fx, gx, gy, LITE ? 16 : 26, "dot", 80, 280, 30, 1400);
+      shatter(gx, gy); // nổ ra mảnh vỡ (thay cho cánh hoa + chấm cũ)
       await wait(380);
       openLetter();
     }
@@ -1558,7 +1703,7 @@
         cx = W / 2;
         cy = H * 0.38;
         hw = Math.min(W * 0.3, H * 0.175, 125); // nửa bề ngang trái tim (chừa chỗ cho pháo hoa)
-        cam = hw * 5; // khoảng cách camera -> độ phối cảnh
+        cam = hw * 6.5; // khoảng cách camera -> độ phối cảnh khi xoay
       };
       layout();
       addEventListener("resize", layout);
@@ -1629,6 +1774,8 @@
         pts.push({
           x: cx0[b] + (tz / tl) * off,
           z: cz0[b] - (tx / tl) * off,
+          d: (Math.random() + Math.random() + Math.random() - 1.5) * 2 * DEN.heartDepth, // độ sâu của hạt khi là trái tim
+          rd: rand(-1, 1), // độ sâu của hạt khi còn bay lơ lửng
           r:
             (Math.random() < 0.1 ? rand(11, 15) : rand(7, 11)) *
             DEN.heartDotSize,
@@ -1820,6 +1967,52 @@
         raf = 0,
         run = false,
         gatherT = -1; // -1 = chưa tụ lại (đang chờ người xem quét vân tay)
+      // ----- XOAY: kéo ngang bằng ngón tay (không chạm vòng quét vân tay) -> xoay quanh trục dọc, thả ra có quán tính -----
+      let yaw = 0,
+        yawV = 0,
+        dragging = false,
+        lx = 0,
+        lt = 0,
+        hinted = false;
+      const stage = S.vs, // khung cảnh cuối đặt pointer-events:none nên lắng nghe ở cấp tài liệu và chỉ nhận khi đang ở cảnh cuối
+        inVs = () => document.body.dataset.stage === "vs";
+      $("#app").style.touchAction = "none"; // kéo ngang không bị trình duyệt giành cử chỉ
+      document.addEventListener("pointerdown", (e) => {
+        if (!run || !inVs() || (e.target.closest && e.target.closest("#fpScan")))
+          return;
+        dragging = true;
+        lx = e.clientX;
+        lt = e.timeStamp;
+        yawV = 0;
+      });
+      document.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - lx,
+          dt = Math.max(1, e.timeStamp - lt);
+        lx = e.clientX;
+        lt = e.timeStamp;
+        yaw += dx * 0.011;
+        yawV = yawV * 0.6 + ((dx * 0.011) / (dt / 1000)) * 0.4;
+      });
+      const endDrag = (e) => {
+        if (!dragging) return;
+        dragging = false;
+        if (e.timeStamp - lt > 90) yawV = 0; // dừng tay rồi mới nhả -> không trượt tiếp
+      };
+      document.addEventListener("pointerup", endDrag);
+      document.addEventListener("pointercancel", endDrag);
+      // gợi ý một lần khi trái tim đã thành hình
+      const showHint = () => {
+        const h = document.createElement("p");
+        h.textContent = "Kéo ngang để xoay trái tim";
+        h.style.cssText =
+          "position:absolute;left:0;right:0;top:9%;margin:0;text-align:center;font:600 13px/1.3 system-ui,sans-serif;letter-spacing:.04em;color:rgba(255,255,255,.8);pointer-events:none;opacity:0";
+        stage.appendChild(h);
+        const a = h.animate([{ opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 1, offset: 0.8 }, { opacity: 0 }], {
+          duration: 5200,
+        });
+        a.onfinish = () => h.remove();
+      };
       const waiters = [];
       const step = (now) => {
         if (!run) return;
@@ -1934,6 +2127,17 @@
         const formed = clamp((gt - 3000) / 900, 0, 1),
           beat =
             1 + 0.045 * formed * Math.pow(Math.max(0, Math.sin(t * 0.0048)), 3);
+        // xoay: đang kéo thì theo tay; thả ra thì quán tính giảm dần về tốc độ xoay nhẹ (chỉ khi trái tim đã thành hình)
+        if (!dragging) {
+          yaw += yawV * dt;
+          yawV += (0.26 * formed - yawV) * (1 - Math.exp(-2.2 * dt));
+        }
+        if (formed >= 1 && !hinted) {
+          hinted = true;
+          showHint();
+        }
+        const cw = Math.cos(yaw),
+          sw = Math.sin(yaw);
         for (let k = 0; k < pts.length; k++) {
           const p = pts[k],
             appear = clamp((t - p.ad) / 500, 0, 1);
@@ -1949,11 +2153,21 @@
               Math.sin(t * 0.0013 + p.ph) * 4 * (1 - g),
             hx = cx + p.x * hw * beat,
             hy = cy - p.z * hw * beat,
-            px = rx + (hx - rx) * g,
-            py = ry + (hy - ry) * g,
+            // vị trí 3D tương đối so với trục xoay giữa màn hình: x ngang, Y dọc, Dp chiều sâu
+            X = rx - cx + (hx - rx) * g,
+            Y = ry + (hy - ry) * g,
+            Dp = p.rd * W * 0.3 * (1 - g) + p.d * hw * beat * g,
+            // xoay quanh trục dọc rồi chiếu phối cảnh: hạt gần to + sáng hơn, hạt xa nhỏ + mờ hơn
+            Dr = Dp * cw - X * sw,
+            sc = cam / (cam + Dr),
+            px = cx + (X * cw + Dp * sw) * sc,
+            py = cy + (Y - cy) * sc,
             tw = 0.82 + 0.18 * Math.sin(t * 0.001 * p.ts + p.ph),
-            s = p.r * (0.75 + 0.25 * g);
-          ctx.globalAlpha = Math.min(1, appear * tw * (0.8 + 0.2 * g));
+            s = p.r * (0.75 + 0.25 * g) * sc;
+          ctx.globalAlpha = Math.min(
+            1,
+            appear * tw * (0.8 + 0.2 * g) * (0.72 + 0.28 * clamp((sc - 0.8) / 0.4, 0, 1)),
+          );
           ctx.drawImage(
             hs[g > 0.5 ? p.ci : Math.max(0, p.ci - 1)],
             px - s / 2,
@@ -1982,6 +2196,9 @@
         },
         get gatherAt() {
           return gatherT;
+        },
+        get yaw() {
+          return yaw;
         },
         now: () => t,
         resume() {
