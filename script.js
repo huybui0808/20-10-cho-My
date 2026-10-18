@@ -16,8 +16,18 @@
     fadeIn: 1000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
     video: ["VideoMy.mp4", "anhMy/VideoMy.mp4"],
     musicLove: ["Nhaclangmang.mp3", "anhMy/Nhaclangmang.mp3"], // nhạc lãng mạn: ưu tiên file ở thư mục gốc, nếu không có thì thử anhMy/
+    // ===== NHẠC CẢNH QUÉT VÂN TAY (nhacdaodau.mp3): phát từ lúc hiện vòng quét vân tay, lặp lại cho tới khi mờ dần =====
+    musicIntro: ["nhacdaodau.mp3", "anhMy/nhacdaodau.mp3"], // thử lần lượt từng đường dẫn
+    introFadeIn: 1500, // ms nhạc dạo đầu từ nhỏ lên to
+    introFadeOut: 3000, // ms nhạc dạo đầu mờ dần tới tắt (chỉnh cho khớp lúc nối với nhaclangmang.mp3)
+    // >>> ĐỔI THỨ TỰ TẮT NHẠC Ở ĐÂY <<<
+    // Nhạc dạo đầu bắt đầu MỜ DẦN ngay khi câu chữ RƠI thứ N tính từ cuối danh sách fallTexts (ngay lúc chữ bắt đầu hiện).
+    // 3 = câu thứ 3 từ cuối đếm lên | 2 = câu áp chót | 1 = câu cuối cùng | 4 = câu thứ 4 từ cuối ...
+    introFadeFromEnd: 3,
+    // Nhạc lãng mạn (nhaclangmang.mp3) + chữ mưa bắt đầu khi câu chữ rơi thứ N từ cuối XUẤT HIỆN XONG (mặc định 3 như cũ)
+    loveFromEnd: 3,
     introText: "Mong rằng bạn sẽ xem đến hết", // chữ hiện đầu cảnh vũ trụ rồi bay cùng ảnh
-    // ===== CHỮ RƠI Ở CẢNH CUỐI: sửa/thêm các câu ở đây (rơi lần lượt, hết thì lặp lại, mỗi lần một màu) =====
+    // ===== CHỮ RƠI Ở CẢNH CUỐI (THỨ TỰ các câu ở dưới chính là thứ tự rơi; đếm "thứ N từ cuối" cho introFadeFromEnd/loveFromEnd phía trên dựa theo danh sách này): sửa/thêm các câu ở đây (rơi lần lượt, hết thì lặp lại, mỗi lần một màu) =====
     fallTexts: [
       "..........",
       "tôi mong rằng dù ntn",
@@ -530,6 +540,94 @@
       },
     };
 
+    /* -------------------- NHẠC DẠO ĐẦU Ở CẢNH QUÉT VÂN TAY (kênh riêng, không đụng nhạc chính) -------------------- */
+    const au2 = $("#bgm2");
+    let iRaf = 0;
+    const fade2 = (to, ms, cb) => {
+      cancelAnimationFrame(iRaf);
+      const f = au2.volume,
+        t0 = performance.now();
+      const st = (t) => {
+        const p = Math.min(1, (t - t0) / ms);
+        try {
+          au2.volume = f + (to - f) * p;
+        } catch (e) {}
+        p < 1 ? (iRaf = requestAnimationFrame(st)) : cb && cb();
+      };
+      iRaf = requestAnimationFrame(st);
+    };
+    const Intro = {
+      // gọi ngay trong lúc người dùng chạm (nút "Bắt đầu") để trình duyệt cho phép phát nhạc ở cảnh sau
+      unlock() {
+        if (!au2) return;
+        try {
+          au2.muted = true;
+          au2.src = CONFIG.musicIntro[0];
+          const p = au2.play();
+          const back = () => {
+            au2.muted = false;
+          };
+          p
+            ? p
+                .then(() => {
+                  au2.pause();
+                  au2.currentTime = 0;
+                  back();
+                })
+                .catch(back)
+            : back();
+        } catch (e) {}
+      },
+      play() {
+        if (!au2) return;
+        const list = CONFIG.musicIntro;
+        let k = 0;
+        au2.loop = true;
+        au2.muted = false;
+        try {
+          au2.volume = 0;
+        } catch (e) {}
+        const t = () => {
+          if (k >= list.length) return;
+          au2.src = list[k++];
+          const p = au2.play();
+          p &&
+            p
+              .then(() => fade2(CONFIG.volume, CONFIG.introFadeIn))
+              .catch(() => {
+                document.addEventListener(
+                  "pointerdown",
+                  () =>
+                    au2
+                      .play()
+                      .then(() => fade2(CONFIG.volume, CONFIG.introFadeIn))
+                      .catch(() => {}),
+                  { once: true },
+                );
+              });
+        };
+        au2.onerror = t;
+        try {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC && CONFIG.boost > 1 && !au2._boost) {
+            const ctx = new AC(),
+              g = ctx.createGain();
+            g.gain.value = CONFIG.boost;
+            ctx
+              .createMediaElementSource(au2)
+              .connect(g)
+              .connect(ctx.destination);
+            ctx.resume();
+            au2._boost = 1;
+          }
+        } catch (e) {}
+        t();
+      },
+      fadeOut(ms = CONFIG.introFadeOut) {
+        if (au2) fade2(0, ms, () => au2.pause());
+      },
+    };
+
     /* -------------------- hiệu ứng hạt (chỉ transform + opacity) -------------------- */
     const COLS = [
       "#ff8fb8",
@@ -721,6 +819,7 @@
       if (b1) return;
       b1 = true;
       Music.play(); // chạm của người dùng -> được phép phát nhạc
+      Intro.unlock(); // mở khóa sẵn kênh nhạc dạo đầu (nhacdaodau.mp3) cho cảnh quét vân tay
       loadVideo();
       btnStart.classList.remove("show");
       env1.classList.remove("up"); // thư trượt vào (~1s)
@@ -1970,7 +2069,8 @@
       el.style.textShadow =
         "0 0 2px rgba(255,255,255,.45), 0 0 6px currentColor, 0 1px 3px rgba(0,0,0,.65)";
       let prev = -1;
-      let rainStarted = false;
+      let rainStarted = false,
+        introFaded = false;
       for (let i = 0; i < list.length; i++) {
         let ci;
         do ci = (Math.random() * FALL_COLS.length) | 0;
@@ -2000,9 +2100,20 @@
         });
         el.style.color = FALL_COLS[ci];
         el.className = "vs-text show fall in";
+        // Nhạc dạo đầu mờ dần NGAY KHI câu chữ rơi thứ CONFIG.introFadeFromEnd (tính từ cuối) bắt đầu hiện.
+        if (
+          !introFaded &&
+          i === Math.max(0, list.length - CONFIG.introFadeFromEnd)
+        ) {
+          introFaded = true;
+          Intro.fadeOut();
+        }
         await sleep(n * 55 + 900);
-        // Khi câu áp chót xuất hiện xong: bật nhạc và chữ mưa cùng lúc.
-        if (!rainStarted && i === Math.max(0, list.length - 3)) {
+        // Khi câu thứ CONFIG.loveFromEnd (tính từ cuối) xuất hiện xong: bật nhạc lãng mạn và chữ mưa cùng lúc.
+        if (
+          !rainStarted &&
+          i === Math.max(0, list.length - CONFIG.loveFromEnd)
+        ) {
           rainStarted = true;
           Music.play(CONFIG.musicLove);
           startRain(Wv, Hv);
@@ -2122,6 +2233,7 @@
       finEng = startFinCanvas(Wv, Hv); // đốm sáng + sao băng; chờ quét vân tay rồi mới tụ lại
       if (finEng) {
         await finEng.at(1500); // đốm sáng bay lên một lúc rồi mới hiện vòng quét
+        Intro.play(); // nhạc dạo đầu (nhacdaodau.mp3) bắt đầu cùng lúc hiện vòng quét vân tay
         await waitScan();
         finEng.gather();
         await finEng.after(800);
