@@ -13,7 +13,7 @@
     music: ["Nhacrieng.mp3", "anhMy/Nhacrieng.mp3"], // file nhạc cảnh vũ trụ + phong bì (thử lần lượt từng đường dẫn)
     volume: 1, // ÂM LƯỢNG GỐC: 0 (tắt) -> 1 (to nhất của trình duyệt). Không vượt quá 1 được.
     boost: 2.0, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
-    fadeIn: 2000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
+    fadeIn: 1000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
     video: ["VideoMy.mp4", "anhMy/VideoMy.mp4"],
     musicLove: ["Nhaclangmang.mp3", "anhMy/Nhaclangmang.mp3"], // nhạc lãng mạn: ưu tiên file ở thư mục gốc, nếu không có thì thử anhMy/
     introText: "Nhớ xem hết nha", // chữ hiện đầu cảnh vũ trụ rồi bay cùng ảnh
@@ -24,7 +24,7 @@
       "tôi và bạn vẫn nói chuyện với nhau",
       "Vẫn là bạn nhau",
       "Nhưng tôi vẫn muốn nói",
-      "Tôi quý bạn",
+      "Tôi thích bạn",
       "I really like you",
     ],
     // ===== CHỮ MƯA: sau khi câu CUỐI của fallTexts hiện ra và ĐỨNG YÊN mãi, các chữ dưới đây rơi chậm như mưa (lần lượt, hết thì lặp lại) =====
@@ -55,6 +55,7 @@
       "chúng ta trở thành của nhau",
       "Mệt thì cứ ngoái lại phía sau",
       "anh vẫn luôn đây mà",
+      " ",
       "Dù thời gian không chịu đứng yên",
       "Để cho chính anh",
       "không còn ngẩn ngơ",
