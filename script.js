@@ -122,7 +122,7 @@
     imgDir: "anhMy/",
     // ----- CẢNH VŨ TRỤ -----
     spawnEvery: 0.65, // giây giữa 2 vật thể bay lên. TĂNG = ít vật thể cùng lúc, thưa và nhẹ hơn. GIẢM = dày hơn
-    flyFor: 2000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
+    flyFor: 25000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
     wishWordMs: 70, // ms giữa 2 chữ khi hiện lời chúc trên lá thư (tăng = hiện chậm hơn). Nhớ chỉnh cùng số trong style.css (--wd)
   };
   const ZOOM_MIN = 0.5,
