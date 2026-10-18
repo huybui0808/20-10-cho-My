@@ -75,7 +75,7 @@
       "cũng thôi mơ mộng",
       "Thì anh vẫn luôn dành những câu ca",
       "trong lòng anh cho người mãi thôi",
-      " ",
+      
       " .",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
