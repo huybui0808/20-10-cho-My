@@ -12,8 +12,8 @@
     qrImage: "anhMy/Anhqrcholap.png",
     music: ["Nhacrieng.mp3", "anhMy/Nhacrieng.mp3"], // file nhạc cảnh vũ trụ + phong bì (thử lần lượt từng đường dẫn)
     volume: 1, // ÂM LƯỢNG GỐC: 0 (tắt) -> 1 (to nhất của trình duyệt). Không vượt quá 1 được.
-    boost: 1.8, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
-    fadeIn: 3000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
+    boost: 2.0, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
+    fadeIn: 2000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
     video: ["VideoMy.mp4", "anhMy/VideoMy.mp4"],
     musicLove: ["Nhaclangmang.mp3", "anhMy/Nhaclangmang.mp3"], // nhạc lãng mạn: ưu tiên file ở thư mục gốc, nếu không có thì thử anhMy/
     introText: "Nhớ xem hết nha", // chữ hiện đầu cảnh vũ trụ rồi bay cùng ảnh
@@ -29,49 +29,38 @@
     ],
     // ===== CHỮ MƯA: sau khi câu CUỐI của fallTexts hiện ra và ĐỨNG YÊN mãi, các chữ dưới đây rơi chậm như mưa (lần lượt, hết thì lặp lại) =====
     rainTexts: [
-      "   ",
       "Dù cho mai về sau",
-
       "mình không bên cạnh nhau",
-
       "Làm tim anh quặn đau",
-
       "Anh trông ngóng bao nhiêu lâu",
-
       "Dù vương vấn u sầu",
-
       "Mùa thu có phai màu",
-
       "Anh vẫn muốn yêu em",
-      " .....  ",
-      "Bầu trời đêm không mây",
-      " không sao",
+      "Bầu trời đêm không mây không sao",
+
       "Trăng treo trên cao khi",
       "lòng anh vẫn nhớ nhung em nhiều",
       "Anh làm sao có thể",
       "ngừng suy nghĩ đến đôi môi em",
       "dù chỉ một giây",
-      "     ",
       "Mặc cho ta đi bên nhau bao lâu",
       "Em đâu hay anh cần",
       "bao câu nói anh yêu em",
       "Chỉ để em sẽ một lần",
       " nhìn thấy trái tim",
       "anh đang rung động biết bao",
-      "     ",
       "Dù lời nói có là gió bay",
       "Anh vẫn mong sau này",
       "chúng ta trở thành của nhau",
       "Mệt thì cứ ngoái lại phía sau",
       "anh vẫn luôn đây mà",
-      "     ",
       "Dù thời gian không chịu đứng yên",
       "Để cho chính anh",
       "không còn ngẩn ngơ",
       "cũng thôi mơ mộng",
       "Thì anh vẫn luôn dành những câu ca",
       "trong lòng anh cho người mãi thôi",
-
+      ".......",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
       "Làm tim anh quặn đau",
@@ -79,7 +68,6 @@
       "Dù vương vấn u sầu",
       "Mùa thu có phai màu",
       "Anh vẫn muốn yêu em",
-      "     ",
       "Dù cho muôn trùng phương",
       "Còn bao nhiêu lời thương",
       "Dù mênh mông đại dương",
@@ -114,27 +102,27 @@
     // ===== MẬT ĐỘ ĐỐM SÁNG Ở CẢNH CUỐI: tăng số = dày/đẹp hơn nhưng nặng hơn; "Lite" là số dùng cho điện thoại yếu =====
     density: {
       heartDots: 900, // số đốm sáng tạo nên nét trái tim
-      heartDotsLite: 420,
+      heartDotsLite: 600,
       heartThick: 0.07, // độ dày nét viền trái tim (0.03 mảnh ... 0.12 rất dày)
       heartDotSize: 1, // nhân kích thước đốm của trái tim (1 = mặc định, 1.3 = đốm to hơn)
       sparkPool: 420, // tổng số đốm sáng nhỏ bay lên (nền)
-      sparkPoolLite: 56,
-      sparkWave: 15, // số đốm sáng mỗi đợt (cứ ~0,9 giây một đợt)
+      sparkPoolLite: 200,
+      sparkWave: 18, // số đốm sáng mỗi đợt (cứ ~0,9 giây một đợt)
       sparkWaveLite: 9,
-      iconPool: 30, // tổng số tim/hoa bay lên
+      iconPool: 26, // tổng số tim/hoa bay lên
       iconPoolLite: 22,
-      iconWave: 8, // số tim/hoa mỗi đợt (cứ ~1,8 giây một đợt)
+      iconWave: 7, // số tim/hoa mỗi đợt (cứ ~1,8 giây một đợt)
       iconWaveLite: 4,
-      rainCount: 10, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
+      rainCount: 9, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
       rainCountLite: 8,
-      rainFall: 12000, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
+      rainFall: 13000, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
       rainGap: 2200, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
     }, // ms mỗi câu đứng yên trước khi rơi đi
     scanHold: 2000, // ms phải giữ ngón tay ở vòng quét vân tay
     imgDir: "anhMy/",
     // ----- CẢNH VŨ TRỤ -----
     spawnEvery: 0.65, // giây giữa 2 vật thể bay lên. TĂNG = ít vật thể cùng lúc, thưa và nhẹ hơn. GIẢM = dày hơn
-    flyFor: 25000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
+    flyFor: 2000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
     wishWordMs: 70, // ms giữa 2 chữ khi hiện lời chúc trên lá thư (tăng = hiện chậm hơn). Nhớ chỉnh cùng số trong style.css (--wd)
   };
   const ZOOM_MIN = 0.5,
@@ -1957,7 +1945,7 @@
       }
     }
 
-    /* Chữ MƯA: vài chục chữ (pool cố định, tái sử dụng) rơi thật chậm, chỉ transform + opacity */
+    /* Chữ MƯA: chạy theo MỘT hàng đợi chung để lời bài hát xuất hiện đúng thứ tự. */
     function startRain(Wv, Hv) {
       const layer = $("#finRain");
       if (!layer) return;
@@ -1967,15 +1955,44 @@
             : CONFIG.fallTexts,
         count = LITE ? DEN.rainCountLite : DEN.rainCount,
         D = DEN.rainFall;
-      let k = 0,
-        prev = -1;
-      const go = (el, first, idx) => {
-        const txt = list[k++ % list.length],
-          size = rand(12, 18);
+      let nextText = 0,
+        prev = -1,
+        nextEl = 0;
+      const els = [];
+      const fr = document.createDocumentFragment();
+      for (let i = 0; i < count; i++) {
+        const e = document.createElement("i");
+        e.className = "rain-t";
+        e.dataset.rainBusy = "0";
+        fr.appendChild(e);
+        els.push(e);
+      }
+      layer.appendChild(fr);
+
+      const spawnNext = () => {
+        // Chọn phần tử rảnh; nếu tất cả vẫn đang rơi thì đợi, không bỏ qua câu nào.
+        let el = null;
+        for (let n = 0; n < els.length; n++) {
+          const idx = (nextEl + n) % els.length;
+          if (els[idx].dataset.rainBusy !== "1") {
+            el = els[idx];
+            nextEl = (idx + 1) % els.length;
+            break;
+          }
+        }
+        if (!el) {
+          setTimeout(spawnNext, 200);
+          return;
+        }
+
+        const txt = list[nextText % list.length];
+        nextText++;
+        const size = rand(12, 18);
         let ci;
         do ci = (Math.random() * FALL_COLS.length) | 0;
         while (ci === prev && FALL_COLS.length > 1);
         prev = ci;
+        el.dataset.rainBusy = "1";
         el.textContent = txt;
         el.style.color = FALL_COLS[ci];
         el.style.fontFamily = '"Segoe UI", Arial, "Noto Sans", sans-serif';
@@ -1988,45 +2005,33 @@
         el.style.left =
           rand(8, Math.max(9, Wv - txt.length * size * 0.6 - 8)).toFixed(0) +
           "px";
-        const r = rand(-10, 10),
-          a = el.animate(
-            [
-              {
-                transform: `translate3d(0,-50px,0) rotate(${r.toFixed(1)}deg)`,
-                opacity: 0,
-              },
-              { opacity: 0.62, offset: 0.1 },
-              { opacity: 0.62, offset: 0.86 },
-              {
-                transform: `translate3d(${rand(-30, 30).toFixed(0)}px,${Hv + 70}px,0) rotate(${(-r).toFixed(1)}deg)`,
-                opacity: 0,
-              },
-            ],
+        const r = rand(-10, 10);
+        const a = el.animate(
+          [
             {
-              duration: D, // Giữ cùng thời lượng để chữ mưa hoàn thành theo đúng thứ tự đã khai báo trong CONFIG.rainTexts.
-              delay: first ? idx * DEN.rainGap : 0,
-              easing: "linear",
-            }, // rơi liên tục: các chữ lệch pha đều nhau, chữ nào rơi xong là rơi lại ngay
-          );
+              transform: `translate3d(0,-50px,0) rotate(${r.toFixed(1)}deg)`,
+              opacity: 0,
+            },
+            { opacity: 0.62, offset: 0.1 },
+            { opacity: 0.62, offset: 0.86 },
+            {
+              transform: `translate3d(${rand(-30, 30).toFixed(0)}px,${Hv + 70}px,0) rotate(${(-r).toFixed(1)}deg)`,
+              opacity: 0,
+            },
+          ],
+          { duration: D, easing: "linear" },
+        );
         riseAnims.add(a);
         if (finPaused) a.pause();
         a.onfinish = () => {
           a.cancel();
           riseAnims.delete(a);
-          // Nghỉ một nhịp trước khi chữ mới xuất hiện; chỉnh bằng CONFIG.density.rainGap.
-          setTimeout(() => go(el, false, idx), DEN.rainGap);
+          el.dataset.rainBusy = "0";
         };
+        // Chỉ một bộ hẹn giờ cấp lời tiếp theo: không còn mỗi chữ tự lấy câu riêng.
+        setTimeout(spawnNext, DEN.rainGap);
       };
-      const fr = document.createDocumentFragment(),
-        els = [];
-      for (let i = 0; i < count; i++) {
-        const e = document.createElement("i");
-        e.className = "rain-t";
-        fr.appendChild(e);
-        els.push(e);
-      }
-      layer.appendChild(fr);
-      els.forEach((e, i) => go(e, true, i));
+      spawnNext();
     }
 
     async function finale() {
