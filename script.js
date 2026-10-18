@@ -17,7 +17,7 @@
     video: ["VideoMy.mp4", "anhMy/VideoMy.mp4"],
     musicLove: ["Nhaclangmang.mp3", "anhMy/Nhaclangmang.mp3"], // nhạc lãng mạn: ưu tiên file ở thư mục gốc, nếu không có thì thử anhMy/
     // ===== NHẠC CẢNH QUÉT VÂN TAY (nhacdaodau.mp3): phát từ lúc hiện vòng quét vân tay, lặp lại cho tới khi mờ dần =====
-    musicIntro: ["nhacdaodau.mp3", "anhMy/nhacdaodau.mp3"], // thử lần lượt từng đường dẫn
+    musicIntro: ["Nhacdaodau.mp3", "anhMy/Nhacdaodau.mp3"], // thử lần lượt từng đường dẫn
     introFadeIn: 1500, // ms nhạc dạo đầu từ nhỏ lên to
     introFadeOut: 3000, // ms nhạc dạo đầu mờ dần tới tắt (chỉnh cho khớp lúc nối với nhaclangmang.mp3)
     // >>> ĐỔI THỨ TỰ TẮT NHẠC Ở ĐÂY <<<

@@ -10,7 +10,8 @@
     script.js
     VideoMy.mp4          <-- video 9:16, dài ~23 giây  (xem hướng dẫn bên dưới)
     Nhacrieng.mp3        <-- nhạc ở cảnh vũ trụ + phong bì (tự nhỏ -> to êm ái)
-    Nhaclangmang.mp3     <-- nhạc cảnh cuối (phát khi video kết thúc, hiện trái tim)
+    nhacdaodau.mp3       <-- nhạc dạo đầu ở cảnh quét vân tay (mờ dần khi chữ rơi thứ N từ cuối xuất hiện, xem CONFIG.introFadeFromEnd)
+    Nhaclangmang.mp3     <-- nhạc lãng mạn cảnh cuối (phát cùng chữ mưa, xem CONFIG.loveFromEnd)
     anhMy/               <-- toàn bộ ảnh (Anhchinh.png, Anhqrcholap.png và các ảnh sẽ bay ở cảnh vũ trụ)
 
   ---------------------------------------------------------------------
@@ -209,6 +210,8 @@
     </div>
 
     <audio id="bgm" preload="none" playsinline></audio>
+    <!-- nhạc dạo đầu ở cảnh quét vân tay (nhacdaodau.mp3), kênh riêng để mờ dần và nối với Nhaclangmang.mp3 -->
+    <audio id="bgm2" preload="none" playsinline></audio>
     <script src="script.js"></script>
   </body>
 </html>
