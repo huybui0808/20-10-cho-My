@@ -12,18 +12,18 @@
     qrImage: "anhMy/Anhqrcholap.png",
     music: ["Nhacrieng.mp3", "anhMy/Nhacrieng.mp3"], // file nhạc cảnh vũ trụ + phong bì (thử lần lượt từng đường dẫn)
     volume: 1, // ÂM LƯỢNG GỐC: 0 (tắt) -> 1 (to nhất của trình duyệt). Không vượt quá 1 được.
-    boost: 2.0, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
+    boost: 2.3, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
     fadeIn: 1000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
     video: ["VideoMy.mp4", "anhMy/VideoMy.mp4"],
     musicLove: ["Nhaclangmang.mp3", "anhMy/Nhaclangmang.mp3"], // nhạc lãng mạn: ưu tiên file ở thư mục gốc, nếu không có thì thử anhMy/
-    introText: "Nhớ xem hết nha", // chữ hiện đầu cảnh vũ trụ rồi bay cùng ảnh
+    introText: "Mong rằng bạn sẽ xem đến hết", // chữ hiện đầu cảnh vũ trụ rồi bay cùng ảnh
     // ===== CHỮ RƠI Ở CẢNH CUỐI: sửa/thêm các câu ở đây (rơi lần lượt, hết thì lặp lại, mỗi lần một màu) =====
     fallTexts: [
-      "...............",
+      "..........",
       "tôi mong rằng dù ntn",
       "tôi và bạn vẫn nói chuyện với nhau",
       "Vẫn là bạn nhau",
-      "Nhưng tôi vẫn muốn nói",
+      "Tôi muốn nói là",
       "Tôi thích bạn",
       "I really like you",
     ],
@@ -51,7 +51,7 @@
       "Chỉ để em sẽ một lần",
       " nhìn thấy trái tim",
       "anh đang rung động biết bao",
-       " ",
+      " ",
       "Dù lời nói có là gió bay",
       "Anh vẫn mong sau này",
       "chúng ta trở thành của nhau",
@@ -70,7 +70,7 @@
       "Anh trông ngóng bao nhiêu lâu",
       "Dù vương vấn u sầu",
       "Mùa thu có phai màu anh vẫn muốn yêu em",
-"",
+      "",
       "Dù cho muôn trùng phương",
       "Còn bao nhiêu lời thương",
       "Dù mênh mông đại dương",
@@ -83,7 +83,7 @@
       "       ",
       "       ",
       "       ",
-       ".",
+      ".",
       "       ",
       ".",
       "       ",
@@ -165,16 +165,16 @@
       heartDotSize: 1, // nhân kích thước đốm của trái tim (1 = mặc định, 1.3 = đốm to hơn)
       sparkPool: 420, // tổng số đốm sáng nhỏ bay lên (nền)
       sparkPoolLite: 200,
-      sparkWave: 14, // số đốm sáng mỗi đợt (cứ ~0,9 giây một đợt)
+      sparkWave: 12, // số đốm sáng mỗi đợt (cứ ~0,9 giây một đợt)
       sparkWaveLite: 9,
-      iconPool: 22, // tổng số tim/hoa bay lên
+      iconPool: 20, // tổng số tim/hoa bay lên
       iconPoolLite: 22,
       iconWave: 7, // số tim/hoa mỗi đợt (cứ ~1,8 giây một đợt)
       iconWaveLite: 4,
-      rainCount: 9, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
+      rainCount: 10, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
       rainCountLite: 8,
-      rainFall: 12500, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
-      rainGap: 2050, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
+      rainFall: 12000, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
+      rainGap: 1900, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
     }, // ms mỗi câu đứng yên trước khi rơi đi
     scanHold: 2000, // ms phải giữ ngón tay ở vòng quét vân tay
     imgDir: "anhMy/",
@@ -183,8 +183,8 @@
     flyFor: 25000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
     wishWordMs: 70, // ms giữa 2 chữ khi hiện lời chúc trên lá thư (tăng = hiện chậm hơn). Nhớ chỉnh cùng số trong style.css (--wd)
   };
-  const ZOOM_MIN = 0.5,
-    ZOOM_MAX = 3.5; // giới hạn phóng to/thu nhỏ toàn cảnh (nhỏ nhất, lớn nhất)
+  const ZOOM_MIN = 0.65,
+    ZOOM_MAX = 4.0; // giới hạn phóng to/thu nhỏ toàn cảnh (nhỏ nhất, lớn nhất)
   const rng = (n, p) => Array.from({ length: n }, (_, i) => p + (i + 1));
   // Danh sách ảnh bay (chỉ ghi tên, không cần .png). Thêm ảnh mới: thêm tên vào đây.
   const PHOTOS = [
@@ -1383,12 +1383,12 @@
         if (n % 2 === 0) wave(hearts, iconW, Wv, Hv, false);
       }, 900);
       // dừng mọi thứ khi tab bị ẩn, chạy tiếp khi quay lại
-      document.addEventListener("visibilitychange", () => {
-        finPaused = document.hidden;
-        riseAnims.forEach((a) => (finPaused ? a.pause() : a.play()));
-        if (finEng) finPaused ? finEng.pause() : finEng.resume();
-      });
-      return timer;
+      // document.addEventListener("visibilitychange", () => {
+      //   finPaused = document.hidden;
+      //   riseAnims.forEach((a) => (finPaused ? a.pause() : a.play()));
+      //   if (finEng) finPaused ? finEng.pause() : finEng.resume();
+      // });
+      // return timer;
     }
 
     /* Canvas: đốm sáng -> trái tim rỗng + pháo hoa + sao băng */
@@ -1991,7 +1991,7 @@
         el.className = "vs-text show fall in";
         await sleep(n * 55 + 900);
         // Khi câu áp chót xuất hiện xong: bật nhạc và chữ mưa cùng lúc.
-        if (!rainStarted && i === Math.max(0, list.length - 2)) {
+        if (!rainStarted && i === Math.max(0, list.length - 3)) {
           rainStarted = true;
           Music.play(CONFIG.musicLove);
           startRain(Wv, Hv);
