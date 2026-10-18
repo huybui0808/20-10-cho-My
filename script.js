@@ -46,8 +46,8 @@
       "dù chỉ một giây",
       " ",
       "Mặc cho ta đi bên nhau bao lâu",
-      "Em đâu hay anh cần",
-      "bao câu nói anh yêu em",
+      "Em đâu hay anh cần bao câu",
+      " nói anh yêu em",
       "Chỉ để em sẽ một lần",
       " nhìn thấy trái tim",
       "anh đang rung động biết bao",
@@ -90,7 +90,7 @@
       ".",
       "       ",
       "Rất nhiều câu trả lời ",
-      "chỉ để em nhớ được điều này nữa thôi",
+      "chỉ để em nhớ được \n điều này nữa thôi",
       "Anh vẫn luôn muốn ở cạnh em ",
       "bất kể dù cho nhiều ngày nữa trôi",
       "Hồi đầu giả vờ ngơ ngẩn một mình",
@@ -164,16 +164,16 @@
       heartDotSize: 1, // nhân kích thước đốm của trái tim (1 = mặc định, 1.3 = đốm to hơn)
       sparkPool: 420, // tổng số đốm sáng nhỏ bay lên (nền)
       sparkPoolLite: 200,
-      sparkWave: 18, // số đốm sáng mỗi đợt (cứ ~0,9 giây một đợt)
+      sparkWave: 14, // số đốm sáng mỗi đợt (cứ ~0,9 giây một đợt)
       sparkWaveLite: 9,
-      iconPool: 26, // tổng số tim/hoa bay lên
+      iconPool: 22, // tổng số tim/hoa bay lên
       iconPoolLite: 22,
       iconWave: 7, // số tim/hoa mỗi đợt (cứ ~1,8 giây một đợt)
       iconWaveLite: 4,
       rainCount: 9, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
       rainCountLite: 8,
       rainFall: 12500, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
-      rainGap: 2100, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
+      rainGap: 2000, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
     }, // ms mỗi câu đứng yên trước khi rơi đi
     scanHold: 2000, // ms phải giữ ngón tay ở vòng quét vân tay
     imgDir: "anhMy/",
