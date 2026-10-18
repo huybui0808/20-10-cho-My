@@ -29,7 +29,7 @@
     ],
     // ===== CHỮ MƯA: sau khi câu CUỐI của fallTexts hiện ra và ĐỨNG YÊN mãi, các chữ dưới đây rơi chậm như mưa (lần lượt, hết thì lặp lại) =====
     rainTexts: [
-      "",
+      "   .",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
       "Làm tim anh quặn đau",
@@ -71,7 +71,8 @@
       "Làm tim anh quặn đau",
       "Anh trông ngóng bao nhiêu lâu",
       "Dù vương vấn u sầu",
-      "Mùa thu có phai màu anh vẫn muốn yêu em",
+      "Mùa thu có phai màu",
+      "anh vẫn muốn yêu em",
       "",
       "Dù cho muôn trùng phương",
       "Còn bao nhiêu lời thương",
@@ -93,7 +94,7 @@
       "..",
       "       ",
       ".",
-      "       ",
+
       "       ",
       "Rất nhiều câu trả lời ",
       "chỉ để em nhớ được điều này nữa thôi",
