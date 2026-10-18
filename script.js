@@ -6,7 +6,7 @@
 (() => {
   "use strict";
   const CONFIG = {
-    password: "27112008", // 27/11/2008
+    passApi: "https://check-mat-khau.buitrunghuy20082.workers.dev/",
     toName: "Vũ Đặng Thảo My",
     fromName: "Bùi Trung Huy",
     qrImage: "anhMy/Anhqrcholap.png",
