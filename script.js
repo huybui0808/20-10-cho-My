@@ -65,7 +65,7 @@
       "Chỉ để em sẽ một lần",
       " nhìn thấy trái tim",
       "anh đang rung động biết bao",
-      " ",
+      //v3
       " ", //ms thêm
       "Dù lời nói có là gió bay",
       "Anh vẫn mong sau này",
@@ -81,7 +81,7 @@
       "Thì anh vẫn luôn dành những câu ca",
       "trong lòng anh cho người mãi thôi",
       " 🌷", // mới thêm
-      " .",
+      //v3
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
       "Làm tim anh quặn đau",
@@ -216,7 +216,7 @@
       rainCount: 10, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
       rainCountLite: 8,
       rainFall: 12000, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
-      rainGap: 1870, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
+      rainGap: 1840, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
     }, // ms mỗi câu đứng yên trước khi rơi đi
     scanHold: 2000, // ms phải giữ ngón tay ở vòng quét vân tay
     imgDir: "anhMy/",
