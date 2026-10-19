@@ -111,7 +111,7 @@
       "..",
       "    💖   ",
       ".",
-"",
+      "",
       "🌹",
       "       ",
       "Rất nhiều câu trả lời ",
@@ -126,10 +126,11 @@
       "cáu gắt mắng đủ điều",
       "Đáng yêu từ cái dáng điệu",
       "dựa vào anh mỗi khi trời tắt nắng buổi chiều,",
-      "Biết là làm dược sĩ", "nên khó tính hay nhắc nhắn nhủ nhiều",
+      "Biết là làm dược sĩ",
+      "nên khó tính hay nhắc nhắn nhủ nhiều",
       "Như là ôm quả bom nổ chậm",
-      "vì anh mà yêu em thì phải chắc chắn đủ liều",//v2
-      
+      "vì anh mà yêu em thì phải chắc chắn đủ liều", //v2
+
       "Cho thời gian đưa lối",
       "Anh không mong điều gì xa xôi",
       "Yêu chỉ mình em thôi",
@@ -153,7 +154,7 @@
       "Mùa thu có phai màu",
       "Anh vẫn muốn yêu em",
       " ",
-      
+
       "Dù cho muôn trùng phương",
       "Còn bao nhiêu lời thương",
       "Dù mênh mông đại dương",
@@ -163,11 +164,11 @@
       " ",
       " ",
       "Dù lời nói có là gió bay",
-      "",//v2
+      "", //v2
       "Dù ngày tháng có còn đổi thay",
-      "",//v2
+      "", //v2
       "Thì anh vẫn mãi muốn nắm đôi bàn tay",
-      "",//v2
+      "", //v2
       "dắt theo những hy vọng đong đầy",
       "",
       "Dù cho mai về sau",
@@ -187,7 +188,6 @@
       ".",
       "💖",
       ".",
-      
     ],
 
     fallHold: 1800,
@@ -282,14 +282,23 @@
 
   // Lời chúc ngắn rơi nhẹ nhàng ở phần huyền ảo
   const SHORT_WISHES = [
+    "Mong ai đó luôn mỉm cười",
+    "Ước gì niềm vui có tên bạn",
     "Luôn xinh đẹp và rạng rỡ",
     "Mỗi ngày đều là một ngày vui",
     "Thật nhiều sức khỏe",
     "Học giỏi, điểm cao",
+    "Mong những điều tốt đẹp tìm đến bạn",
+    "Biết đâu ta có chung một bí mật",
     "Nụ cười luôn nở trên môi",
     "Hạnh phúc và bình yên",
     "Mọi điều ước đều thành sự thật",
     "Được yêu thương thật nhiều",
+    "Chúc bạn luôn gặp đúng người",
+    "Mong một ngày thật đặc biệt",
+    "Hy vọng có người làm bạn rung động",
+    "Đôi khi gặp gỡ là một điều kỳ diệu",
+    "Mong chúng ta có thêm kỷ niệm",
     "Tự tin tỏa sáng nhé",
     "Vạn sự như ý",
     "Ngày 20-10 thật ngọt ngào",
@@ -2493,14 +2502,13 @@
       "#ff9a76",
       "#fff1a8",
       "#ff9ec4",
-        "#00F5D4", // xanh ngọc neon
-  "#4d96ff", // xanh dương sáng
-  "#B8FF3B", // xanh chanh neon
-  "#9B5DE5", // tím điện
-  "#00BBF9", // xanh biển điện
-  "#F15BB5", // hồng tím neon
-  "#A0FFEA"  // xanh bạc hà phát sáng
-      
+      "#00F5D4", // xanh ngọc neon
+      "#4d96ff", // xanh dương sáng
+      "#B8FF3B", // xanh chanh neon
+      "#9B5DE5", // tím điện
+      "#00BBF9", // xanh biển điện
+      "#F15BB5", // hồng tím neon
+      "#A0FFEA", // xanh bạc hà phát sáng
     ];
     async function fallLoop(Wv, Hv) {
       const el = $("#vsT1"),
