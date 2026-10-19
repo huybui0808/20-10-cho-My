@@ -54,8 +54,8 @@
 
       "Trăng treo trên cao khi",
       "lòng anh vẫn nhớ nhung em nhiều",
-      "Anh làm sao có thể",
-      "ngừng suy nghĩ đến đôi môi em",
+      "Anh làm sao có thể ngừng suy nghĩ",
+      " đến đôi môi em",
       "dù chỉ một giây",
       " ",
       " ", // mới đổi
@@ -63,8 +63,8 @@
       "Em đâu hay anh cần bao câu",
       " nói anh yêu em",
       "Chỉ để em sẽ một lần",
-      " nhìn thấy trái tim",
-      "anh đang rung động biết bao",
+      " nhìn thấy trái tim anh đang rung",
+      " động biết bao",
       //v3
       " ", //ms thêm
       "Dù lời nói có là gió bay",
