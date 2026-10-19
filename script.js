@@ -58,6 +58,7 @@
       "ngừng suy nghĩ đến đôi môi em",
       "dù chỉ một giây",
       " ",
+      " ", // mới đổi
       "Mặc cho ta đi bên nhau bao lâu",
       "Em đâu hay anh cần bao câu",
       " nói anh yêu em",
@@ -65,6 +66,7 @@
       " nhìn thấy trái tim",
       "anh đang rung động biết bao",
       " ",
+      " ", //ms thêm
       "Dù lời nói có là gió bay",
       "Anh vẫn mong sau này",
       "chúng ta trở thành của nhau",
@@ -72,12 +74,13 @@
       "Mệt thì cứ ngoái lại phía sau",
       "anh vẫn luôn đây mà",
       " ",
+      ".",
       "Dù thời gian không chịu đứng yên",
       "Để cho chính anh không còn ngẩn ngơ",
       "cũng thôi mơ mộng",
       "Thì anh vẫn luôn dành những câu ca",
       "trong lòng anh cho người mãi thôi",
-
+      " .", // mới thêm
       " .",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
@@ -92,7 +95,8 @@
       "Dù mênh mông đại dương",
       "Phai đi sắc hương mơ màng",
       "Anh vẫn yêu mình em thôi đấy",
-      "Em ơi! Đừng để tình anh dở dang",
+      "Em ơi!",
+      "Đừng để tình anh dở dang",
       " ",
       "       ",
       ".",
@@ -183,8 +187,8 @@
     density: {
       heartDots: 2400, // số đốm li ti tạo nên trái tim 3D (tăng = trái tim đặc, lấp lánh hơn nhưng nặng hơn)
       heartDotsLite: 1100,
-      heartFill: 0.3, // tỉ lệ đốm nằm BÊN TRONG trái tim (0 = chỉ có lớp vỏ, 0.5 = đặc ruột)
-      heartDepth: 0.5, // độ PHỒNG của trái tim theo chiều sâu (0.3 dẹt ... 0.7 rất phồng)
+      heartFill: 0.4, // tỉ lệ đốm nằm BÊN TRONG trái tim (0 = chỉ có lớp vỏ, 0.5 = đặc ruột)
+      heartDepth: 0.6, // độ PHỒNG của trái tim theo chiều sâu (0.3 dẹt ... 0.7 rất phồng)
       heartDotSize: 1, // nhân kích thước đốm của trái tim (1 = mặc định, 1.3 = đốm to hơn)
       shardCount: 48, // vụ nổ ở cảnh vũ trụ: số mảnh vỡ pha lê (giảm = nhẹ hơn)
       shardCountLite: 26,
@@ -203,7 +207,7 @@
       rainCount: 10, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
       rainCountLite: 8,
       rainFall: 12000, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
-      rainGap: 1900, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
+      rainGap: 1700, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
     }, // ms mỗi câu đứng yên trước khi rơi đi
     scanHold: 2000, // ms phải giữ ngón tay ở vòng quét vân tay
     imgDir: "anhMy/",
