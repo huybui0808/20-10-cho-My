@@ -62,8 +62,8 @@
       "Mặc cho ta đi bên nhau bao lâu",
       "Em đâu hay anh cần bao câu",
       " nói anh yêu em",
-      "Chỉ để em sẽ một lần",
-      " nhìn thấy trái tim anh đang rung",
+      "Chỉ để em sẽ một lần nhìn thấy",
+      "  trái tim anh đang rung",
       " động biết bao",
       //v3
       " ", //ms thêm
