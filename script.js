@@ -77,7 +77,7 @@
       "cũng thôi mơ mộng",
       "Thì anh vẫn luôn dành những câu ca",
       "trong lòng anh cho người mãi thôi",
-      
+
       " .",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
@@ -176,22 +176,20 @@
       ".",
       ".",
       ".",
-      
-      
     ],
 
     fallHold: 1800,
     // ===== MẬT ĐỘ ĐỐM SÁNG Ở CẢNH CUỐI: tăng số = dày/đẹp hơn nhưng nặng hơn; "Lite" là số dùng cho điện thoại yếu =====
     density: {
-      heartDots: 700, // số đốm sáng tạo nên nét trái tim
-      heartDotsLite: 600,
-      heartThick: 0.07, // độ dày nét viền trái tim (0.03 mảnh ... 0.12 rất dày)
-      heartDepth: 0.16, // độ dày trái tim theo chiều SÂU khi xoay (0.05 mỏng ... 0.3 rất dày)
+      heartDots: 2400, // số đốm li ti tạo nên trái tim 3D (tăng = trái tim đặc, lấp lánh hơn nhưng nặng hơn)
+      heartDotsLite: 1100,
+      heartFill: 0.3, // tỉ lệ đốm nằm BÊN TRONG trái tim (0 = chỉ có lớp vỏ, 0.5 = đặc ruột)
+      heartDepth: 0.5, // độ PHỒNG của trái tim theo chiều sâu (0.3 dẹt ... 0.7 rất phồng)
       heartDotSize: 1, // nhân kích thước đốm của trái tim (1 = mặc định, 1.3 = đốm to hơn)
-      sparkPool: 420, // tổng số đốm sáng nhỏ bay lên (nền)
-      sparkPoolLite: 200,
-      sparkWave: 12, // số đốm sáng mỗi đợt (cứ ~0,9 giây một đợt)
-      sparkWaveLite: 9,
+      sparkPool: 600, // số đốm sáng hồng nhỏ bay lên ở nền (vẽ trên canvas nên rất nhẹ)
+      sparkPoolLite: 260,
+      fireGlow: 0.7, // BÁN KÍNH QUẦNG SÁNG của pháo hoa (nhân với bán kính nổ; nhỏ hơn = quầng hẹp hơn)
+      fireDensity: 0.8, // số hạt mỗi quả pháo hoa (giảm = nhẹ hơn, tăng = rực hơn)
       iconPool: 20, // tổng số tim/hoa bay lên
       iconPoolLite: 22,
       iconWave: 7, // số tim/hoa mỗi đợt (cứ ~1,8 giây một đợt)
@@ -753,7 +751,9 @@
           locked = false;
           done();
         } else {
-          say(netErr ? "Mạng đang lỗi, thử lại nhé" : "Nhập sai rồi, thử lại nhé");
+          say(
+            netErr ? "Mạng đang lỗi, thử lại nhé" : "Nhập sai rồi, thử lại nhé",
+          );
           slotsEl.classList.remove("shake");
           reflow(slotsEl);
           slotsEl.classList.add("shake");
@@ -1246,7 +1246,14 @@
     /* VỤ NỔ MẢNH VỠ: lõi pha lê vỡ thành các mảnh nhọn xoay lộn 3D, kèm sóng xung kích, tia sáng, tia lửa và rung nhẹ.
        Chỉ animate transform + opacity (WAAPI, chạy trên compositor); mọi phần tử tự gỡ sau khi bay xong. */
     function shatter(cx, cy) {
-      const SH = ["#ff8fb8", "#ffb3cf", "#ff6f9f", "#ffd1e1", "#ffd980", "#ffffff"],
+      const SH = [
+          "#ff8fb8",
+          "#ffb3cf",
+          "#ff6f9f",
+          "#ffd1e1",
+          "#ffd980",
+          "#ffffff",
+        ],
         DK = ["#d94f86", "#c23c78", "#a455c9", "#e07a9f"],
         base = "position:absolute;left:0;top:0;pointer-events:none;",
         pc = (n) => n.toFixed(0) + "%",
@@ -1262,14 +1269,21 @@
         jobs.push([
           r,
           [
-            { transform: `translate(${cx}px,${cy}px) scale(.1)`, opacity: 0.95 },
+            {
+              transform: `translate(${cx}px,${cy}px) scale(.1)`,
+              opacity: 0.95,
+            },
             { opacity: 0.55, offset: 0.4 },
             {
               transform: `translate(${cx}px,${cy}px) scale(${i ? 5 : 6.5})`,
               opacity: 0,
             },
           ],
-          { duration: 850 + i * 300, delay: i * 130, easing: "cubic-bezier(.1,.7,.2,1)" },
+          {
+            duration: 850 + i * 300,
+            delay: i * 130,
+            easing: "cubic-bezier(.1,.7,.2,1)",
+          },
         ]);
       }
       // 2) tia sáng bắn ra từ tâm
@@ -1329,8 +1343,17 @@
         jobs.push([
           el,
           [
-            { transform: T(cx, cy, 0, 0, 0, 0.25), opacity: 1, easing: "cubic-bezier(.05,.85,.2,1)" },
-            { transform: T(ex, ey, ax * 0.55, ay * 0.55, az * 0.55, 1), opacity: 1, offset: 0.5, easing: "ease-in" },
+            {
+              transform: T(cx, cy, 0, 0, 0, 0.25),
+              opacity: 1,
+              easing: "cubic-bezier(.05,.85,.2,1)",
+            },
+            {
+              transform: T(ex, ey, ax * 0.55, ay * 0.55, az * 0.55, 1),
+              opacity: 1,
+              offset: 0.5,
+              easing: "ease-in",
+            },
             {
               transform: T(
                 ex + Math.cos(g) * d * 0.1 + rand(-20, 20),
@@ -1604,14 +1627,11 @@
     }
     const DEN = CONFIG.density;
     function startRise(Wv, Hv) {
-      const sparkW = LITE ? DEN.sparkWaveLite : DEN.sparkWave,
-        iconW = LITE ? DEN.iconWaveLite : DEN.iconWave;
+      const iconW = LITE ? DEN.iconWaveLite : DEN.iconWave;
       const layer = $("#finRise"),
         fr = document.createDocumentFragment(),
         hearts = [],
-        sparks = [],
-        nI = LITE ? DEN.iconPoolLite : DEN.iconPool, // pool tim/hoa
-        nS = LITE ? DEN.sparkPoolLite : DEN.sparkPool; // pool đốm sáng (rất bé nên rẻ)
+        nI = LITE ? DEN.iconPoolLite : DEN.iconPool; // pool tim/hoa (đốm sáng nhỏ giờ vẽ trên canvas)
       for (let i = 0; i < nI; i++) {
         const e = document.createElement("i");
         e.className = "lv";
@@ -1620,22 +1640,13 @@
         fr.appendChild(e);
         hearts.push({ el: e, busy: false });
       }
-      for (let i = 0; i < nS; i++) {
-        const e = document.createElement("i");
-        e.className = "fspk";
-        e.style.color = pick(COLS);
-        fr.appendChild(e);
-        sparks.push({ el: e, busy: false });
-      }
       layer.appendChild(fr);
       finOn = true;
-      wave(sparks, Math.round(sparkW * 2.5), Wv, Hv, true); // đợt đầu dày
       wave(hearts, Math.round(iconW * 1.3), Wv, Hv, false);
       let n = 0;
       const timer = setInterval(() => {
         if (document.hidden || finPaused) return;
         n++;
-        wave(sparks, sparkW, Wv, Hv, true);
         if (n % 2 === 0) wave(hearts, iconW, Wv, Hv, false);
       }, 900);
       // dừng mọi thứ khi tab bị ẩn, chạy tiếp khi quay lại
@@ -1670,9 +1681,9 @@
         gr.addColorStop(1, col(0));
       } else {
         // đốm trái tim: ánh sáng MỀM, tâm hơi trắng nhưng không thành chấm gắt
-        gr.addColorStop(0, "rgba(255,246,250,.92)");
-        gr.addColorStop(0.18, col(0.95));
-        gr.addColorStop(0.5, col(0.36));
+        gr.addColorStop(0, "rgba(255,196,222,.8)"); // lõi hồng nhạt (không còn trắng chói)
+        gr.addColorStop(0.2, col(0.95));
+        gr.addColorStop(0.5, col(0.34));
         gr.addColorStop(1, col(0));
       }
       g.fillStyle = gr;
@@ -1683,7 +1694,7 @@
       const cv = $("#finCv"),
         ctx = cv && cv.getContext("2d");
       if (!ctx) return null;
-      const dpr = Math.min(window.devicePixelRatio || 1, LITE ? 1.25 : 1.75),
+      const dpr = Math.min(window.devicePixelRatio || 1, LITE ? 1.15 : 1.5),
         RISE = 3000, // ms: đốm sáng bay lên 3 giây (sau đó lơ lửng chờ quét vân tay)
         clamp = (v, a, b) => (v < a ? a : v > b ? b : v),
         ease = (q) => 1 - Math.pow(1 - q, 3),
@@ -1709,7 +1720,7 @@
       addEventListener("resize", layout);
 
       // ----- sprite dựng sẵn -----
-      const HC = ["#ff86b2", "#ff9fc3", "#ffb8d1", "#ffd3e2", "#fff0f6"], // trái tim: các sắc hồng SÁNG
+      const HC = ["#ff3f86", "#ff5c9a", "#ff7db0", "#ff9ec6", "#ffbfd8"], // trái tim: các sắc HỒNG (tối -> sáng), không dùng trắng
         FC = [
           "#ff5f9f",
           "#ffd166",
@@ -1720,12 +1731,13 @@
           "#ff7a59",
         ],
         hs = HC.map((c) => sprite(c, 48, false)),
-        fs = FC.map((c) => sprite(c, 32, true)),
+        fs = FC.map((c) => sprite(c, 16, true)), // sprite pháo hoa nhỏ 16px: nhẹ + sắc nét
         glow = sprite("#ff9ec4", 64, false),
         meteorSp = sprite("#cfe6ff", 32, true);
 
-      // ----- trái tim RỖNG: đốm nhỏ dày đặc dọc đường viền, dính vào nhau thành nét -----
-      // đường viền trái tim, chia đều theo độ dài cung để hạt phân bố đều
+      // ----- trái tim 3D ĐẦY ĐẶN như ảnh mẫu: hàng nghìn đốm li ti phủ kín thể tích "chiếc gối" hình tim -----
+      // mỗi hạt: (x, z) nằm trong hình trái tim; chiều sâu d = ±heartDepth·√(1-s²) (s = 0 ở tâm, 1 ở mép)
+      // => giữa dày nhất, mép mỏng dần; nhìn ngang (xoay 90°) ra hình elip dẹt giống ảnh.
       const SAMP = 720,
         cx0 = [],
         cz0 = [],
@@ -1755,7 +1767,7 @@
         N = LITE ? DEN.heartDotsLite : DEN.heartDots,
         pts = [];
       for (let i = 0; i < N; i++) {
-        const u = ((i + Math.random()) / N) * PER;
+        const u = Math.random() * PER;
         let a = 0,
           b = SAMP;
         while (b - a > 1) {
@@ -1763,25 +1775,31 @@
           if (cum[m] < u) a = m;
           else b = m;
         }
-        const tx = cx0[b] - cx0[a],
-          tz = cz0[b] - cz0[a],
-          tl = Math.hypot(tx, tz) || 1,
-          off =
-            (Math.random() + Math.random() + Math.random() - 1.5) *
-            2 *
-            DEN.heartThick, // độ dày nét viền (CONFIG.density.heartThick)
+        const inner = Math.random() < DEN.heartFill, // hạt nằm bên trong thể tích hay nằm trên vỏ
+          s = inner ? Math.sqrt(Math.random()) : Math.pow(Math.random(), 0.42), // vỏ: dồn nhiều hạt về phía mép cho nét tim đầy
+          dome = Math.sqrt(Math.max(0, 1 - s * s)),
+          sign = Math.random() < 0.5 ? -1 : 1,
+          x = cx0[b] * s,
+          z = cz0[b] * s,
+          dd = inner ? rand(-1, 1) * dome : sign * dome + rand(-0.03, 0.03),
+          nl = Math.hypot(x * 0.9, z * 0.9, 0.35 + 0.65 * dome) || 1,
           sx0 = rand(0.02, 0.98);
         pts.push({
-          x: cx0[b] + (tz / tl) * off,
-          z: cz0[b] - (tx / tl) * off,
-          d: (Math.random() + Math.random() + Math.random() - 1.5) * 2 * DEN.heartDepth, // độ sâu của hạt khi là trái tim
+          x,
+          z,
+          d: dd * DEN.heartDepth, // độ sâu của hạt khi là trái tim
           rd: rand(-1, 1), // độ sâu của hạt khi còn bay lơ lửng
+          nx: (x * 0.9) / nl, // pháp tuyến xấp xỉ (để đổ bóng sáng-tối khi xoay)
+          nz: (z * 0.9) / nl,
+          nd: inner ? 0 : (sign * (0.35 + 0.65 * dome)) / nl,
           r:
-            (Math.random() < 0.1 ? rand(11, 15) : rand(7, 11)) *
+            (Math.random() < 0.08 ? rand(8, 11) : rand(4.5, 7.5)) *
             DEN.heartDotSize,
+          sp: Math.random() < 0.12, // hạt lấp lánh mạnh hơn
           ts: rand(1.6, 3.6),
           ph: rand(0, TAU),
-          ci: 1 + ((Math.random() * 4) | 0), // chỉ dùng các sắc sáng
+          ci: 1 + ((Math.random() * 3) | 0),
+          cj: Math.random() < 0.5 ? 0 : Math.random() < 0.5 ? -1 : 1,
           dly: rand(0, 800),
           dur: rand(2200, 3100),
           ad: rand(0, 1400), // lúc bắt đầu hiện ra khi bay lên
@@ -1790,13 +1808,40 @@
           ex: clamp(sx0 + rand(-0.08, 0.08), 0.03, 0.97),
           ey: rand(0.14, 0.82),
           wob: rand(2, 8),
-          px: 0,
-          py: 0,
+          qx: 0,
+          qy: 0,
+          qs: 0,
+          qa: 0,
+          qi: 0,
         });
+      }
+      const listBack = new Int16Array(N),
+        listFront = new Int16Array(N);
+
+      // ----- bụi sao hồng bay lên (nền, vẽ trên canvas: rẻ hơn rất nhiều so với phần tử DOM) -----
+      const DN = LITE ? DEN.sparkPoolLite : DEN.sparkPool,
+        dX = new Float32Array(DN),
+        dY = new Float32Array(DN),
+        dV = new Float32Array(DN),
+        dP = new Float32Array(DN),
+        dS = new Float32Array(DN),
+        dA = new Float32Array(DN),
+        dC = new Uint8Array(DN),
+        dsp = ["#ff5c9a", "#ff7db0", "#ff9ec6", "#ffb3d0"].map((c) =>
+          sprite(c, 16, false),
+        );
+      for (let i = 0; i < DN; i++) {
+        dX[i] = Math.random() * W;
+        dY[i] = rand(0.1, 1.08) * H;
+        dV[i] = rand(35, 95);
+        dP[i] = rand(0, TAU);
+        dS[i] = rand(3, 7);
+        dA[i] = rand(0, 2600); // ms: lúc bắt đầu hiện ra (rải đều để không bị "bật" cùng lúc)
+        dC[i] = (Math.random() * dsp.length) | 0;
       }
 
       // ----- pháo hoa: pool hạt cố định (typed array), tái sử dụng -----
-      const M = LITE ? 240 : 480,
+      const M = LITE ? 200 : 360,
         qx = new Float32Array(M),
         qy = new Float32Array(M),
         qvx = new Float32Array(M),
@@ -1828,11 +1873,11 @@
       const shells = [];
       const burst = (sh) => {
         const v = sh.R * 2.3,
-          n = LITE ? 0.62 : 1,
+          n = (LITE ? 0.62 : 1) * DEN.fireDensity,
           c1 = sh.c,
           c2 = (sh.c + 1 + ((Math.random() * 5) | 0)) % FC.length,
           rot = rand(0, TAU);
-        spawn(sh.tx, sh.ty, 0, 0, 0.45, sh.R * 1.5, 7); // quầng sáng lóe
+        spawn(sh.tx, sh.ty, 0, 0, 0.35, sh.R * DEN.fireGlow, 7); // quầng sáng lóe (CONFIG.density.fireGlow: nhỏ hơn = quầng hẹp hơn)
         if (sh.type === 0) {
           // pháo cầu
           for (let i = 0, m = (48 * n) | 0; i < m; i++) {
@@ -1978,8 +2023,13 @@
         inVs = () => document.body.dataset.stage === "vs";
       $("#app").style.touchAction = "none"; // kéo ngang không bị trình duyệt giành cử chỉ
       document.addEventListener("pointerdown", (e) => {
-        if (!run || !inVs() || (e.target.closest && e.target.closest("#fpScan")))
+        if (
+          !run ||
+          !inVs() ||
+          (e.target.closest && e.target.closest("#fpScan"))
+        )
           return;
+        if (gatherT >= 0 && t - gatherT < 3900) return; // đang tụ lại thành tim: chưa cho xoay
         dragging = true;
         lx = e.clientX;
         lt = e.timeStamp;
@@ -2008,9 +2058,17 @@
         h.style.cssText =
           "position:absolute;left:0;right:0;top:9%;margin:0;text-align:center;font:600 13px/1.3 system-ui,sans-serif;letter-spacing:.04em;color:rgba(255,255,255,.8);pointer-events:none;opacity:0";
         stage.appendChild(h);
-        const a = h.animate([{ opacity: 0 }, { opacity: 1, offset: 0.12 }, { opacity: 1, offset: 0.8 }, { opacity: 0 }], {
-          duration: 5200,
-        });
+        const a = h.animate(
+          [
+            { opacity: 0 },
+            { opacity: 1, offset: 0.12 },
+            { opacity: 1, offset: 0.8 },
+            { opacity: 0 },
+          ],
+          {
+            duration: 5200,
+          },
+        );
         a.onfinish = () => h.remove();
       };
       const waiters = [];
@@ -2056,6 +2114,24 @@
         }
 
         ctx.clearRect(0, 0, W, H);
+
+        // -1) bụi sao hồng bay lên liên tục (nền)
+        ctx.globalCompositeOperation = "source-over";
+        for (let i = 0; i < DN; i++) {
+          const ap = (t - dA[i]) / 900;
+          if (ap <= 0) continue;
+          dY[i] -= dV[i] * dt;
+          if (dY[i] < -10) {
+            dY[i] = H + 10;
+            dX[i] = Math.random() * W;
+          }
+          const tw = 0.5 + 0.5 * Math.sin(t * 0.002 + dP[i]),
+            top = clamp(dY[i] / (H * 0.12), 0, 1);
+          ctx.globalAlpha = (ap > 1 ? 1 : ap) * (0.4 + 0.5 * tw) * top;
+          const sz = dS[i],
+            x = dX[i] + Math.sin(t * 0.0012 + dP[i]) * 6;
+          ctx.drawImage(dsp[dC[i]], x - sz / 2, dY[i] - sz / 2, sz, sz);
+        }
         ctx.globalCompositeOperation = "lighter";
 
         // 0) sao băng vũ trụ
@@ -2112,23 +2188,28 @@
           let s;
           if (qsp[i] === 7) {
             s = qs[i] * (1 + f * 0.5);
-            ctx.globalAlpha = (1 - f) * 0.55;
+            ctx.globalAlpha = (1 - f) * 0.4;
             ctx.drawImage(glow, qx[i] - s / 2, qy[i] - s / 2, s, s);
           } else {
             s = qs[i] * (1.1 - 0.45 * f);
             ctx.globalAlpha =
-              Math.pow(1 - f, 1) * (0.82 + 0.18 * Math.sin(qa[i] * 38 + i));
+              (1 - f) * ((qa[i] * 9 + i * 0.37) % 1 < 0.5 ? 1 : 0.8); // nhấp nháy rẻ (không dùng sin)
             ctx.drawImage(fs[qsp[i]], qx[i] - s / 2, qy[i] - s / 2, s, s);
           }
         }
 
-        // 2) đốm sáng: bay lên -> (chờ quét vân tay) -> tụ lại thành trái tim rỗng
+        // 2) đốm sáng: bay lên -> (chờ quét vân tay) -> tụ lại thành trái tim 3D (hướng chính diện) -> xoay
         ctx.globalCompositeOperation = "source-over";
         const formed = clamp((gt - 3000) / 900, 0, 1),
           beat =
             1 + 0.045 * formed * Math.pow(Math.max(0, Math.sin(t * 0.0048)), 3);
-        // xoay: đang kéo thì theo tay; thả ra thì quán tính giảm dần về tốc độ xoay nhẹ (chỉ khi trái tim đã thành hình)
-        if (!dragging) {
+        if (gatherT >= 0 && formed < 1) {
+          // đang tụ lại: bỏ qua kéo/xoay, từ từ trả trái tim về GÓC BAN ĐẦU (nhìn thẳng chính diện) rồi mới cho xoay
+          dragging = false;
+          yawV = 0;
+          yaw += (Math.round(yaw / TAU) * TAU - yaw) * (1 - Math.exp(-5 * dt));
+        } else if (!dragging) {
+          // xoay: đang kéo thì theo tay; thả ra thì quán tính giảm dần về tốc độ xoay nhẹ (chỉ khi trái tim đã thành hình)
           yaw += yawV * dt;
           yawV += (0.26 * formed - yawV) * (1 - Math.exp(-2.2 * dt));
         }
@@ -2138,6 +2219,8 @@
         }
         const cw = Math.cos(yaw),
           sw = Math.sin(yaw);
+        let nb = 0,
+          nf = 0;
         for (let k = 0; k < pts.length; k++) {
           const p = pts[k],
             appear = clamp((t - p.ad) / 500, 0, 1);
@@ -2153,28 +2236,60 @@
               Math.sin(t * 0.0013 + p.ph) * 4 * (1 - g),
             hx = cx + p.x * hw * beat,
             hy = cy - p.z * hw * beat,
-            // vị trí 3D tương đối so với trục xoay giữa màn hình: x ngang, Y dọc, Dp chiều sâu
+            // vị trí 3D tương đối so với trục xoay giữa màn hình: x ngang, Y dọc, Dp chiều sâu (dương = xa)
             X = rx - cx + (hx - rx) * g,
             Y = ry + (hy - ry) * g,
             Dp = p.rd * W * 0.3 * (1 - g) + p.d * hw * beat * g,
             // xoay quanh trục dọc rồi chiếu phối cảnh: hạt gần to + sáng hơn, hạt xa nhỏ + mờ hơn
             Dr = Dp * cw - X * sw,
             sc = cam / (cam + Dr),
-            px = cx + (X * cw + Dp * sw) * sc,
-            py = cy + (Y - cy) * sc,
+            // đổ bóng: pháp tuyến xoay cùng trái tim, ánh sáng chiếu từ trên-trái-phía trước
+            nxr = p.nx * cw + p.nd * sw,
+            ndr = p.nd * cw - p.nx * sw,
+            lit =
+              0.5 +
+              (clamp(
+                0.5 + 0.5 * (nxr * -0.35 + p.nz * 0.55 - ndr * 0.76),
+                0,
+                1,
+              ) -
+                0.5) *
+                g,
             tw = 0.82 + 0.18 * Math.sin(t * 0.001 * p.ts + p.ph),
-            s = p.r * (0.75 + 0.25 * g) * sc;
-          ctx.globalAlpha = Math.min(
-            1,
-            appear * tw * (0.8 + 0.2 * g) * (0.72 + 0.28 * clamp((sc - 0.8) / 0.4, 0, 1)),
+            spk =
+              p.sp && g > 0.8
+                ? 1 +
+                  0.9 *
+                    Math.pow(Math.max(0, Math.sin(t * 0.004 * p.ts + p.ph)), 10)
+                : 1;
+          p.qx = cx + (X * cw + Dp * sw) * sc;
+          p.qy = cy + (Y - cy) * sc;
+          p.qs = p.r * (0.75 + 0.25 * g) * sc * spk;
+          p.qa = Math.min(
+            0.95,
+            appear *
+              tw *
+              (0.8 + 0.2 * g) *
+              (0.7 + 0.3 * clamp((sc - 0.8) / 0.4, 0, 1)) *
+              (0.7 + 0.5 * lit),
           );
-          ctx.drawImage(
-            hs[g > 0.5 ? p.ci : Math.max(0, p.ci - 1)],
-            px - s / 2,
-            py - s / 2,
-            s,
-            s,
-          );
+          p.qi =
+            g > 0.5
+              ? clamp(Math.round(lit * 3.2) + p.cj + (spk > 1.3 ? 1 : 0), 0, 4)
+              : Math.max(0, p.ci - 1);
+          // hai lượt vẽ (xa -> gần) thay cho sắp xếp, rẻ hơn nhiều
+          if (Dr > 0) listBack[nb++] = k;
+          else listFront[nf++] = k;
+        }
+        for (let j = 0; j < nb; j++) {
+          const p = pts[listBack[j]];
+          ctx.globalAlpha = p.qa;
+          ctx.drawImage(hs[p.qi], p.qx - p.qs / 2, p.qy - p.qs / 2, p.qs, p.qs);
+        }
+        for (let j = 0; j < nf; j++) {
+          const p = pts[listFront[j]];
+          ctx.globalAlpha = p.qa;
+          ctx.drawImage(hs[p.qi], p.qx - p.qs / 2, p.qy - p.qs / 2, p.qs, p.qs);
         }
         ctx.globalAlpha = 1;
 
