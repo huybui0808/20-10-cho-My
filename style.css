@@ -1346,7 +1346,7 @@ body[data-stage="vs"] .bg {
   }
 }
 #vsT1 {
-  top: 68%;
+  top: 62%;
   font-size: clamp(30px, 9.4vw, 44px);
   text-shadow:
     0 0 6px currentColor,

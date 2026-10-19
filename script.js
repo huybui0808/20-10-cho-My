@@ -14,14 +14,14 @@
     qrImage: "anhMy/Anhqrcholap.png",
     music: ["Nhacrieng.mp3", "anhMy/Nhacrieng.mp3"], // file nhạc cảnh vũ trụ + phong bì (thử lần lượt từng đường dẫn)
     volume: 1, // ÂM LƯỢNG GỐC: 0 (tắt) -> 1 (to nhất của trình duyệt). Không vượt quá 1 được.
-    boost: 2.3, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
+    boost: 2.0, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
     fadeIn: 1000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
     video: ["VideoMy.mp4", "anhMy/VideoMy.mp4"],
     musicLove: ["Nhaclangmang.mp3", "anhMy/Nhaclangmang.mp3"], // nhạc lãng mạn: ưu tiên file ở thư mục gốc, nếu không có thì thử anhMy/
     // ===== NHẠC CẢNH QUÉT VÂN TAY (nhacdaodau.mp3): phát từ lúc hiện vòng quét vân tay, lặp lại cho tới khi mờ dần =====
     musicIntro: ["Nhacdaodau.mp3", "anhMy/Nhacdaodau.mp3"], // thử lần lượt từng đường dẫn
     introFadeIn: 1500, // ms nhạc dạo đầu từ nhỏ lên to
-    introFadeOut: 3000, // ms nhạc dạo đầu mờ dần tới tắt (chỉnh cho khớp lúc nối với nhaclangmang.mp3)
+    introFadeOut: 2000, // ms nhạc dạo đầu mờ dần tới tắt (chỉnh cho khớp lúc nối với nhaclangmang.mp3)
     // >>> ĐỔI THỨ TỰ TẮT NHẠC Ở ĐÂY <<<
     // Nhạc dạo đầu bắt đầu MỜ DẦN ngay khi câu chữ RƠI thứ N tính từ cuối danh sách fallTexts (ngay lúc chữ bắt đầu hiện).
     // 3 = câu thứ 3 từ cuối đếm lên | 2 = câu áp chót | 1 = câu cuối cùng | 4 = câu thứ 4 từ cuối ...
@@ -41,7 +41,7 @@
     ],
     // ===== CHỮ MƯA: sau khi câu CUỐI của fallTexts hiện ra và ĐỨNG YÊN mãi, các chữ dưới đây rơi chậm như mưa (lần lượt, hết thì lặp lại) =====
     rainTexts: [
-      "   .",
+      "♥️I Love You♥️",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
       "Làm tim anh quặn đau",
@@ -80,7 +80,7 @@
       "cũng thôi mơ mộng",
       "Thì anh vẫn luôn dành những câu ca",
       "trong lòng anh cho người mãi thôi",
-      " .", // mới thêm
+      " 🌷", // mới thêm
       " .",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
@@ -98,20 +98,21 @@
       "Em ơi!",
       "Đừng để tình anh dở dang",
       " ",
+      "Tôi",
+      "Yêu",
+      "Bạn",
       "       ",
       ".",
-      "       ",
-      "       ",
+      "I",
+      "Love",
+      "  You  ",
       ".",
-      "       ",
-      ".",
-      "       ",
-      ".",
-      "       ",
+      " ♥️      ",
       "..",
-      "       ",
+      "    💖   ",
       ".",
-
+"",
+      "🌹",
       "       ",
       "Rất nhiều câu trả lời ",
       "chỉ để em nhớ được điều này nữa thôi",
@@ -125,15 +126,17 @@
       "cáu gắt mắng đủ điều",
       "Đáng yêu từ cái dáng điệu",
       "dựa vào anh mỗi khi trời tắt nắng buổi chiều,",
-      "Biết là làm dược sĩ nên khó tính hay nhắc nhắn nhủ nhiều",
+      "Biết là làm dược sĩ", "nên khó tính hay nhắc nhắn nhủ nhiều",
       "Như là ôm quả bom nổ chậm",
-      "vì anh mà yêu em thì phải chắc chắn đủ liều",
+      "vì anh mà yêu em thì phải chắc chắn đủ liều",//v2
+      
       "Cho thời gian đưa lối",
       "Anh không mong điều gì xa xôi",
       "Yêu chỉ mình em thôi",
       "khiến anh thức thao cứ mỗi đêm về",
       "Em lại xinh như thế",
       "Sao mà không làm cho anh mê đắm như trong giấc mơ",
+      "", // v2
       "Khi lắng nghe tiếng yêu",
       "Em nhẹ ngân câu hát",
       "Theo điệu đàn anh feel",
@@ -150,6 +153,7 @@
       "Mùa thu có phai màu",
       "Anh vẫn muốn yêu em",
       " ",
+      
       "Dù cho muôn trùng phương",
       "Còn bao nhiêu lời thương",
       "Dù mênh mông đại dương",
@@ -159,9 +163,13 @@
       " ",
       " ",
       "Dù lời nói có là gió bay",
+      "",//v2
       "Dù ngày tháng có còn đổi thay",
+      "",//v2
       "Thì anh vẫn mãi muốn nắm đôi bàn tay",
+      "",//v2
       "dắt theo những hy vọng đong đầy",
+      "",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
       "Làm tim anh quặn đau",
@@ -174,20 +182,20 @@
       "Dù mênh mông đại dương",
       "Phai đi sắc hương mơ màng",
       "Anh vẫn yêu mình em thôi đấy",
-      "Anh vẫn yêu mình em thôi đấy",
+      "💖♥️💖♥️",
       "Yêu em mà chẳng một lời thở than",
       ".",
+      "💖",
       ".",
-      ".",
-      ".",
+      
     ],
 
     fallHold: 1800,
     // ===== MẬT ĐỘ ĐỐM SÁNG Ở CẢNH CUỐI: tăng số = dày/đẹp hơn nhưng nặng hơn; "Lite" là số dùng cho điện thoại yếu =====
     density: {
       heartDots: 2600, // số đốm li ti tạo nên trái tim 3D (tăng = trái tim đặc, lấp lánh hơn nhưng nặng hơn)
-      heartDotsLite: 1100,
-      heartFill: 0.4, // tỉ lệ đốm nằm BÊN TRONG trái tim (0 = chỉ có lớp vỏ, 0.5 = đặc ruột)
+      heartDotsLite: 1300,
+      heartFill: 0.1, // tỉ lệ đốm nằm BÊN TRONG trái tim (0 = chỉ có lớp vỏ, 0.5 = đặc ruột)
       heartDepth: 0.6, // độ PHỒNG của trái tim theo chiều sâu (0.3 dẹt ... 0.7 rất phồng)
       heartDotSize: 1, // nhân kích thước đốm của trái tim (1 = mặc định, 1.3 = đốm to hơn)
       shardCount: 48, // vụ nổ ở cảnh vũ trụ: số mảnh vỡ pha lê (giảm = nhẹ hơn)
@@ -196,8 +204,8 @@
       rayCountLite: 12,
       sparkCount: 30, // số tia lửa nhỏ
       sparkCountLite: 14,
-      sparkAfter: 0.35, // ĐỐM SÁNG BAY LÊN SAU KHI TRÁI TIM ĐÃ HÌNH THÀNH: giữ lại bao nhiêu phần (1 = giữ nguyên, 0.35 = còn 35%, 0 = tắt hết)
-      sparkPool: 1200, // số đốm sáng hồng nhỏ bay lên ở nền (vẽ trên canvas nên rất nhẹ)
+      sparkAfter: 0.8, // ĐỐM SÁNG BAY LÊN SAU KHI TRÁI TIM ĐÃ HÌNH THÀNH: giữ lại bao nhiêu phần (1 = giữ nguyên, 0.35 = còn 35%, 0 = tắt hết)
+      sparkPool: 450, // số đốm sáng hồng nhỏ bay lên ở nền (vẽ trên canvas nên rất nhẹ)
       sparkPoolLite: 480,
       fireGlow: 0.6, // BÁN KÍNH QUẦNG SÁNG của pháo hoa (nhân với bán kính nổ; nhỏ hơn = quầng hẹp hơn)
       fireDensity: 0.9, // số hạt mỗi quả pháo hoa (giảm = nhẹ hơn, tăng = rực hơn)
@@ -208,13 +216,13 @@
       rainCount: 10, // số chữ mưa rơi cùng lúc (rơi liên tục, không ngắt quãng)
       rainCountLite: 8,
       rainFall: 12000, // TỐC ĐỘ RƠI: ms để một chữ đi hết màn hình (tăng = rơi chậm hơn)
-      rainGap: 1700, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
+      rainGap: 1720, // NHỊP CHỮ MƯA MỚI: ms giữa 2 chữ mưa bắt đầu rơi (giảm = chữ tiếp theo xuất hiện nhanh hơn)
     }, // ms mỗi câu đứng yên trước khi rơi đi
     scanHold: 2000, // ms phải giữ ngón tay ở vòng quét vân tay
     imgDir: "anhMy/",
     // ----- CẢNH VŨ TRỤ -----
     spawnEvery: 0.65, // giây giữa 2 vật thể bay lên. TĂNG = ít vật thể cùng lúc, thưa và nhẹ hơn. GIẢM = dày hơn
-    flyFor: 25000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
+    flyFor: 20000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
     wishWordMs: 70, // ms giữa 2 chữ khi hiện lời chúc trên lá thư (tăng = hiện chậm hơn). Nhớ chỉnh cùng số trong style.css (--wd)
   };
   const ZOOM_MIN = 0.65,
@@ -2485,6 +2493,14 @@
       "#ff9a76",
       "#fff1a8",
       "#ff9ec4",
+        "#00F5D4", // xanh ngọc neon
+  "#4d96ff", // xanh dương sáng
+  "#B8FF3B", // xanh chanh neon
+  "#9B5DE5", // tím điện
+  "#00BBF9", // xanh biển điện
+  "#F15BB5", // hồng tím neon
+  "#A0FFEA"  // xanh bạc hà phát sáng
+      
     ];
     async function fallLoop(Wv, Hv) {
       const el = $("#vsT1"),
