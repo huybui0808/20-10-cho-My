@@ -160,8 +160,8 @@
       "Dù mênh mông đại dương",
       "Phai đi sắc hương mơ màng",
       "Anh vẫn yêu mình em thôi đấy",
-      "Em ơi! Đừng để tình anh dở dang",
-      " ",
+      "Em ơi! Đừng để tình anh ",
+      " dở dang",
       " ",
       "Dù lời nói có là gió bay",
       "", //v2
@@ -183,7 +183,7 @@
       "Dù mênh mông đại dương",
       "Phai đi sắc hương mơ màng",
       "Anh vẫn yêu mình em thôi đấy",
-      "💖♥️💖♥️",
+
       "Yêu em mà chẳng một lời thở than",
       ".",
       "💖",
