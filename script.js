@@ -185,7 +185,7 @@
     fallHold: 1800,
     // ===== MẬT ĐỘ ĐỐM SÁNG Ở CẢNH CUỐI: tăng số = dày/đẹp hơn nhưng nặng hơn; "Lite" là số dùng cho điện thoại yếu =====
     density: {
-      heartDots: 2400, // số đốm li ti tạo nên trái tim 3D (tăng = trái tim đặc, lấp lánh hơn nhưng nặng hơn)
+      heartDots: 2600, // số đốm li ti tạo nên trái tim 3D (tăng = trái tim đặc, lấp lánh hơn nhưng nặng hơn)
       heartDotsLite: 1100,
       heartFill: 0.4, // tỉ lệ đốm nằm BÊN TRONG trái tim (0 = chỉ có lớp vỏ, 0.5 = đặc ruột)
       heartDepth: 0.6, // độ PHỒNG của trái tim theo chiều sâu (0.3 dẹt ... 0.7 rất phồng)
@@ -196,10 +196,11 @@
       rayCountLite: 12,
       sparkCount: 30, // số tia lửa nhỏ
       sparkCountLite: 14,
+      sparkAfter: 0.35, // ĐỐM SÁNG BAY LÊN SAU KHI TRÁI TIM ĐÃ HÌNH THÀNH: giữ lại bao nhiêu phần (1 = giữ nguyên, 0.35 = còn 35%, 0 = tắt hết)
       sparkPool: 1200, // số đốm sáng hồng nhỏ bay lên ở nền (vẽ trên canvas nên rất nhẹ)
       sparkPoolLite: 480,
-      fireGlow: 0.7, // BÁN KÍNH QUẦNG SÁNG của pháo hoa (nhân với bán kính nổ; nhỏ hơn = quầng hẹp hơn)
-      fireDensity: 0.8, // số hạt mỗi quả pháo hoa (giảm = nhẹ hơn, tăng = rực hơn)
+      fireGlow: 0.6, // BÁN KÍNH QUẦNG SÁNG của pháo hoa (nhân với bán kính nổ; nhỏ hơn = quầng hẹp hơn)
+      fireDensity: 0.9, // số hạt mỗi quả pháo hoa (giảm = nhẹ hơn, tăng = rực hơn)
       iconPool: 20, // tổng số tim/hoa bay lên
       iconPoolLite: 22,
       iconWave: 7, // số tim/hoa mỗi đợt (cứ ~1,8 giây một đợt)
@@ -2204,10 +2205,14 @@
         ctx.clearRect(0, 0, W, H);
 
         // -1) bụi sao hồng bay lên liên tục (nền)
+        const dustOff = gt < 0 ? 0 : clamp((gt - 3000) / 1500, 0, 1);
         ctx.globalCompositeOperation = "source-over";
         for (let i = 0; i < DN; i++) {
           const ap = (t - dA[i]) / 900;
           if (ap <= 0) continue;
+          // sau khi tim thành hình: các đốm vượt quá tỉ lệ sparkAfter mờ dần rồi tắt hẳn
+          const keep = i < DN * DEN.sparkAfter ? 1 : 1 - dustOff;
+          if (keep <= 0) continue;
           dY[i] -= dV[i] * dt;
           if (dY[i] < -10) {
             dY[i] = H + 10;
@@ -2215,7 +2220,7 @@
           }
           const tw = 0.5 + 0.5 * Math.sin(t * 0.002 + dP[i]),
             top = clamp(dY[i] / (H * 0.12), 0, 1);
-          ctx.globalAlpha = (ap > 1 ? 1 : ap) * (0.5 + 0.5 * tw) * top;
+          ctx.globalAlpha = (ap > 1 ? 1 : ap) * (0.5 + 0.5 * tw) * top * keep;
           const sz = dS[i],
             x = dX[i] + Math.sin(t * 0.0012 + dP[i]) * 6;
           ctx.drawImage(dsp[dC[i]], x - sz / 2, dY[i] - sz / 2, sz, sz);
