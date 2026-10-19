@@ -38,7 +38,7 @@
       "mong bạn sẽ phản hồi tôi",
       "Tôi mong sẽ được nói trực tiếp với bạn rằng",
       "Tôi thích bạn",
-      "I really like you",
+      "Bạn đồng ý làm người yêu tôi nha",
     ],
     // ===== CHỮ MƯA: sau khi câu CUỐI của fallTexts hiện ra và ĐỨNG YÊN mãi, các chữ dưới đây rơi chậm như mưa (lần lượt, hết thì lặp lại) =====
     rainTexts: [
