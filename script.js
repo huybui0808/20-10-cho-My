@@ -36,7 +36,7 @@
       "tôi và bạn vẫn nói chuyện với nhau",
       "Vẫn giữ chuỗi với nhau🔥",
       "mong bạn sẽ phản hồi tôi",
-      "Tôi muốn nói là",
+      "Tôi mong sẽ được nói trực tiếp với bạn rằng",
       "Tôi thích bạn",
       "I really like you",
     ],
