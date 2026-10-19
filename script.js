@@ -95,8 +95,8 @@
       "Dù mênh mông đại dương",
       "Phai đi sắc hương mơ màng",
       "Anh vẫn yêu mình em thôi đấy",
-      "Em ơi!",
-      "Đừng để tình anh dở dang",
+      "Em ơi! Đừng để tình anh",
+      " dở dang",
       " ",
       "Tôi",
       "Yêu",
@@ -137,7 +137,7 @@
       "khiến anh thức thao cứ mỗi đêm về",
       "Em lại xinh như thế",
       "Sao mà không làm cho anh mê đắm như trong giấc mơ",
-      "", // v2
+      //v3
       "Khi lắng nghe tiếng yêu",
       "Em nhẹ ngân câu hát",
       "Theo điệu đàn anh feel",
