@@ -57,23 +57,23 @@
       "Anh làm sao có thể ngừng suy nghĩ",
       " đến đôi môi em",
       "dù chỉ một giây",
-      " ",
+      " 💖",
       " ", // mới đổi
       "Mặc cho ta đi bên nhau bao lâu",
       "Em đâu hay anh cần bao câu",
       " nói anh yêu em",
       "Chỉ để em sẽ một lần nhìn thấy",
-      "  trái tim anh đang rung",
-      " động biết bao",
+      "  trái tim anh đang rung động",
+      "  biết bao",
       //v3
       " ", //ms thêm
       "Dù lời nói có là gió bay",
       "Anh vẫn mong sau này",
-      "chúng ta trở thành của nhau",
+      "Chúng ta trở thành của nhau",
       " ",
       "Mệt thì cứ ngoái lại phía sau",
-      "anh vẫn luôn đây mà",
-      " ",
+      "Anh vẫn luôn đây mà",
+      " 💖",
       ".",
       "Dù thời gian không chịu đứng yên",
       "Để cho chính anh không còn ngẩn ngơ",
@@ -168,8 +168,8 @@
       "Dù ngày tháng có còn đổi thay",
       "", //v2
       "Thì anh vẫn mãi muốn nắm đôi bàn tay",
-      "", //v2
-      "dắt theo những hy vọng đong đầy",
+      "Dắt theo những hy vọng", //v2
+      " Đong đầy",
       "",
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
