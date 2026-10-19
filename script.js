@@ -34,7 +34,7 @@
       "..........",
       "tôi mong rằng dù ntn",
       "tôi và bạn vẫn nói chuyện với nhau",
-      "Hai ta vẫn nói chuyện với nhau",
+      "Vẫn giữ chuỗi với nhau🔥",
       "mong bạn sẽ phản hồi tôi",
       "Tôi muốn nói là",
       "Tôi thích bạn",
