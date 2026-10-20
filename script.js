@@ -16,6 +16,8 @@
     volume: 1, // ÂM LƯỢNG GỐC: 0 (tắt) -> 1 (to nhất của trình duyệt). Không vượt quá 1 được.
     boost: 2.0, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
     fadeIn: 1000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
+    dissolveEdge: 0.1, // ĐỘ DÀY VIỀN MỜ khi tan rã (tỉ lệ chiều cao màn hình): nhỏ = viền mỏng, vật thể mờ nhanh/gọn (0.05); lớn = viền dày, mờ chậm (0.3)
+    dissolveLead: 0.1, // đốm sáng bắt đầu bay SỚM hơn mép mờ bao nhiêu (tỉ lệ của dissolveMs): tăng = đốm ra sớm hơn so với lúc vật thể mờ đi, 0 = cùng lúc
     dissolveMs: 8000, // ms mép TAN RÃ quét từ trên xuống dưới khi bấm "Xem tiếp" (tăng = tan chậm, mượt hơn)
     musicLove: ["Nhaclangmang.mp3", "anhMy/Nhaclangmang.mp3"], // nhạc lãng mạn: ưu tiên file ở thư mục gốc, nếu không có thì thử anhMy/
     // ===== NHẠC CẢNH QUÉT VÂN TAY (nhacdaodau.mp3): phát từ lúc hiện vòng quét vân tay, lặp lại cho tới khi mờ dần =====
@@ -210,8 +212,8 @@
       rayCountLite: 12,
       sparkCount: 30, // số tia lửa nhỏ
       sparkCountLite: 14,
-      dissolveCount: 1800, // số đốm sáng khi thư/ảnh/chữ tan rã (giảm = nhẹ hơn)
-      dissolveCountLite: 1200,
+      dissolveCount: 2500, // số đốm sáng khi thư/ảnh/chữ tan rã (giảm = nhẹ hơn)
+      dissolveCountLite: 1700,
       sparkAfter: 0.8, // ĐỐM SÁNG BAY LÊN SAU KHI TRÁI TIM ĐÃ HÌNH THÀNH: giữ lại bao nhiêu phần (1 = giữ nguyên, 0.35 = còn 35%, 0 = tắt hết)
       sparkPool: 450, // số đốm sáng hồng nhỏ bay lên ở nền (vẽ trên canvas nên rất nhẹ)
       sparkPoolLite: 480,
@@ -230,7 +232,7 @@
     imgDir: "anhMy/",
     // ----- CẢNH VŨ TRỤ -----
     spawnEvery: 0.65, // giây giữa 2 vật thể bay lên. TĂNG = ít vật thể cùng lúc, thưa và nhẹ hơn. GIẢM = dày hơn
-    flyFor: 25000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
+    flyFor: 1000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
     wishWordMs: 70, // ms giữa 2 chữ khi hiện lời chúc trên lá thư (tăng = hiện chậm hơn). Nhớ chỉnh cùng số trong style.css (--wd)
   };
   const ZOOM_MIN = 0.65,
@@ -1627,11 +1629,20 @@
         const x = r.x + Math.random() * r.w,
           y = r.y + Math.random() * r.h,
           // thời điểm mép tan rã quét qua vị trí này (mép đi từ trên xuống dưới, tuyến tính theo thời gian)
-          edge = clamp((y + 0.15 * h) / (1.3 * h), 0, 1) * T;
+          edge =
+            clamp(
+              (y + 0.5 * CONFIG.dissolveEdge * h) /
+                ((1 + CONFIG.dissolveEdge) * h),
+              0,
+              1,
+            ) * T;
         X0[i] = x;
         Y0[i] = y;
-        DL[i] = Math.max(0, edge - 160 + Math.random() * 260);
-        LF[i] = rand(1500, 2400);
+        DL[i] = Math.max(
+          0,
+          edge - T * CONFIG.dissolveLead + Math.random() * 0.12 * T,
+        ); // đốm xuất hiện sớm hơn mép mờ một chút để kịp 'tách ra' khỏi vật thể
+        LF[i] = rand(1500, 2900);
         RS[i] = rand(90, 380);
         DX[i] = rand(-40, 40);
         PH[i] = rand(0, 6.283);
@@ -1707,11 +1718,13 @@
       Music.stop(Math.round(T * 1.2)); // nhạc cảnh thư nhỏ dần theo hiệu ứng
       // màn nền (cùng màu nền cảnh đốm sáng) phủ dần từ trên xuống: mép mềm 30% màn hình, chỉ dùng transform
       const vl = document.createElement("div");
-      vl.style.cssText = `position:fixed;left:0;top:0;width:100%;height:${(Hv * 1.3).toFixed(0)}px;z-index:34;pointer-events:none;will-change:transform;background:linear-gradient(180deg,#04010a 0,#04010a 76.9%,rgba(4,1,10,0) 100%)`;
+      vl.style.cssText = `position:fixed;left:0;top:0;width:100%;height:${(Hv * (1 + CONFIG.dissolveEdge)).toFixed(0)}px;z-index:34;pointer-events:none;will-change:transform;background:linear-gradient(180deg,#04010a 0,#04010a ${(100 / (1 + CONFIG.dissolveEdge)).toFixed(1)}%,rgba(4,1,10,0) 100%)`;
       document.body.appendChild(vl);
       const sweep = vl.animate(
         [
-          { transform: `translate3d(0,${(-Hv * 1.3).toFixed(0)}px,0)` },
+          {
+            transform: `translate3d(0,${(-Hv * (1 + CONFIG.dissolveEdge)).toFixed(0)}px,0)`,
+          },
           { transform: "translate3d(0,0,0)" },
         ],
         { duration: T, easing: "linear", fill: "forwards" },
