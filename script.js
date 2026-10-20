@@ -2602,7 +2602,16 @@
         el.classList.add("show");
       });
     }
+    // ===== HIỆN NÚT QUẢN TRỊ BẢO TRÌ =====
+    const adminPath = window.location.pathname;
+    const adminQuery = new URLSearchParams(window.location.search);
 
+    const showMaintenanceAdmin =
+      adminPath.endsWith("/Trung_Huy=1") || adminQuery.get("Trung_Huy") === "1";
+
+    if (showMaintenanceAdmin) {
+      document.body.classList.add("show-maintenance-admin");
+    }
     /* Chữ RƠI: mỗi lần một câu trong CONFIG.fallTexts, mỗi lần một màu khác; hết danh sách thì lặp lại */
     const FALL_COLS = [
       "#ff7eb6",
