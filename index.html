@@ -8,7 +8,6 @@
     index.html
     style.css
     script.js
-    VideoMy.mp4          <-- video 9:16, dài ~23 giây  (xem hướng dẫn bên dưới)
     Nhacrieng.mp3        <-- nhạc ở cảnh vũ trụ + phong bì (tự nhỏ -> to êm ái)
     nhacdaodau.mp3       <-- nhạc dạo đầu ở cảnh quét vân tay (mờ dần khi chữ rơi thứ N từ cuối xuất hiện, xem CONFIG.introFadeFromEnd)
     Nhaclangmang.mp3     <-- nhạc lãng mạn cảnh cuối (phát cùng chữ mưa, xem CONFIG.loveFromEnd)
@@ -21,24 +20,6 @@
   Ví dụ thêm ảnh:  'Anhhocsinh6', 'Anhmoi1', ...   -> đủ 40 ảnh là đẹp nhất.
   Thứ tự trong danh sách không quan trọng, web tự xáo trộn ngẫu nhiên cho bay.
   Khuyên dùng ảnh PNG/JPG cạnh dài ~800px, mỗi ảnh < 250KB để máy yếu vẫn mượt.
-
-  ---------------------------------------------------------------------
-  CÁCH HIỆN VIDEO (VideoMy.mp4)
-  ---------------------------------------------------------------------
-  1) Bỏ file video vào CÙNG thư mục với index.html và đặt tên đúng: VideoMy.mp4
-     (nếu để trong anhMy/ cũng được, web sẽ tự tìm thêm ở đó).
-  2) Định dạng nên dùng để chạy được trên mọi điện thoại:
-        - Container MP4, video H.264 (AVC), âm thanh AAC
-        - Tỉ lệ 9:16 (dọc), ví dụ 720x1280, dài ~23 giây
-        - Nên < 20MB cho mượt trên 4G.
-  3) Video nằm trong thẻ <video id="vid"> ở cuối file này:
-        playsinline          -> chạy ngay trong trang (iPhone không bật toàn màn hình)
-        không có "controls"  -> người xem không tạm dừng/tua được
-        không có "loop"      -> chạy xong (sự kiện "ended") video mờ đi rồi ẩn hẳn, chuyển sang cảnh trái tim
-     Video tự phát ngay khi bấm "Xem tiếp" ở cảnh phong bì.
-  4) Muốn đổi tên/đường dẫn video: mở script.js, tìm CONFIG.video và sửa.
-  5) Phải chạy web qua hosting (GitHub Pages, Netlify, Vercel...) hoặc máy chủ cục bộ.
-     Mở trực tiếp file:// có thể bị chặn nhạc/video trên một số trình duyệt.
 
   MẸO TEST TRÊN MÁY TÍNH:  thêm  ?force=mobile  vào cuối địa chỉ để xem bản điện thoại
                            (vd: http://localhost:8000/?force=mobile)
@@ -149,22 +130,9 @@
         </div>
       </section>
 
-      <!-- 3. Video + chữ kết -->
+      <!-- 3. Cảnh đốm sáng + quét vân tay + trái tim + chữ (thư/ảnh tan rã thành đốm sáng rồi chuyển sang đây) -->
       <section class="stage" id="vs">
-        <div class="vid-wrap" id="vidWrap">
-          <!-- VIDEO: xem hướng dẫn ở đầu file. Không controls, không loop. -->
-          <video
-            id="vid"
-            playsinline
-            webkit-playsinline
-            preload="none"
-            disablepictureinpicture
-            disableremoteplayback
-            controlsList="nodownload noplaybackrate noremoteplayback"
-            x-webkit-airplay="deny"
-          ></video>
-        </div>
-        <!-- CẢNH CUỐI (hiện sau khi video kết thúc): đốm sáng, tim, hoa bay lên + trái tim lớn xoay -->
+        <!-- CẢNH CUỐI (hiện sau khi thư/ảnh tan rã): đốm sáng, tim, hoa bay lên + trái tim lớn xoay -->
         <div class="fin" id="fin">
           <div class="hb-glow" id="hbGlow"></div>
           <div class="fin-rise" id="finRise"></div>

@@ -16,7 +16,7 @@
     volume: 1, // ÂM LƯỢNG GỐC: 0 (tắt) -> 1 (to nhất của trình duyệt). Không vượt quá 1 được.
     boost: 2.0, // KHUẾCH ĐẠI THÊM: 1 = giữ nguyên, 1.5-2.5 = to hơn nữa. Quá cao có thể rè -> hạ xuống nếu nghe bị vỡ tiếng.
     fadeIn: 1000, // ms nhạc từ nhỏ lên to (tăng = lên chậm và êm hơn)
-    video: ["VideoMy.mp4", "anhMy/VideoMy.mp4"],
+    dissolveMs: 8000, // ms mép TAN RÃ quét từ trên xuống dưới khi bấm "Xem tiếp" (tăng = tan chậm, mượt hơn)
     musicLove: ["Nhaclangmang.mp3", "anhMy/Nhaclangmang.mp3"], // nhạc lãng mạn: ưu tiên file ở thư mục gốc, nếu không có thì thử anhMy/
     // ===== NHẠC CẢNH QUÉT VÂN TAY (nhacdaodau.mp3): phát từ lúc hiện vòng quét vân tay, lặp lại cho tới khi mờ dần =====
     musicIntro: ["Nhacdaodau.mp3", "anhMy/Nhacdaodau.mp3"], // thử lần lượt từng đường dẫn
@@ -38,12 +38,12 @@
       "Tôi muốn chúc bạn có ngày 20-10 thật tuyệt vời",
       "Có những phút giây hạnh phúc",
       "Có một ngày ngập tràn yêu thương",
-       "Tôi và bạn cũng đã chơi với nhau khá lâu rồi",
-       "Nhưng tôi thấy tôi không thích tình bạn này nữa",
-       "Tôi muốn rằng bạn và tôi",
-       "sẽ có một bước tiến mạnh hơn",
-       "tôi muốn được nói với bạn rằng",
-       "Tôi Yêu Bạn",
+      "Tôi và bạn cũng đã chơi với nhau khá lâu rồi",
+      "Nhưng tôi thấy tôi không thích tình bạn này nữa",
+      "Tôi muốn rằng bạn và tôi",
+      "sẽ có một bước tiến mạnh hơn",
+      "tôi muốn được nói với bạn rằng",
+      "Tôi Yêu Bạn",
       "Bạn đồng ý làm người yêu tôi nha",
     ],
     // ===== CHỮ MƯA: sau khi câu CUỐI của fallTexts hiện ra và ĐỨNG YÊN mãi, các chữ dưới đây rơi chậm như mưa (lần lượt, hết thì lặp lại) =====
@@ -176,15 +176,15 @@
       "Thì anh vẫn mãi muốn nắm đôi bàn tay",
       "Dắt theo những hy vọng", //v2
       " Đong đầy",
-   
+
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
       "Làm tim anh quặn đau",
       "Anh trông ngóng bao nhiêu lâu",
       "Dù vương vấn u sầu",
       "Mùa thu có phai màu",
-       "anh vẫn muốn yêu em",
-      
+      "anh vẫn muốn yêu em",
+
       "Dù cho muôn trùng phương",
       "Còn bao nhiêu lời thương",
       "Dù mênh mông đại dương",
@@ -196,7 +196,6 @@
       "💖",
       ".",
     ],
-
     fallHold: 1800,
     // ===== MẬT ĐỘ ĐỐM SÁNG Ở CẢNH CUỐI: tăng số = dày/đẹp hơn nhưng nặng hơn; "Lite" là số dùng cho điện thoại yếu =====
     density: {
@@ -211,6 +210,8 @@
       rayCountLite: 12,
       sparkCount: 30, // số tia lửa nhỏ
       sparkCountLite: 14,
+      dissolveCount: 1800, // số đốm sáng khi thư/ảnh/chữ tan rã (giảm = nhẹ hơn)
+      dissolveCountLite: 1200,
       sparkAfter: 0.8, // ĐỐM SÁNG BAY LÊN SAU KHI TRÁI TIM ĐÃ HÌNH THÀNH: giữ lại bao nhiêu phần (1 = giữ nguyên, 0.35 = còn 35%, 0 = tắt hết)
       sparkPool: 450, // số đốm sáng hồng nhỏ bay lên ở nền (vẽ trên canvas nên rất nhẹ)
       sparkPoolLite: 480,
@@ -229,7 +230,7 @@
     imgDir: "anhMy/",
     // ----- CẢNH VŨ TRỤ -----
     spawnEvery: 0.65, // giây giữa 2 vật thể bay lên. TĂNG = ít vật thể cùng lúc, thưa và nhẹ hơn. GIẢM = dày hơn
-    flyFor: 25000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
+    flyFor: 1000, // ms từ lúc ảnh bắt đầu bay đến khi hiện nút "Xem tiếp"
     wishWordMs: 70, // ms giữa 2 chữ khi hiện lời chúc trên lá thư (tăng = hiện chậm hơn). Nhớ chỉnh cùng số trong style.css (--wd)
   };
   const ZOOM_MIN = 0.65,
@@ -875,7 +876,6 @@
       b1 = true;
       Music.play(); // chạm của người dùng -> được phép phát nhạc
       Intro.unlock(); // mở khóa sẵn kênh nhạc dạo đầu (nhacdaodau.mp3) cho cảnh quét vân tay
-      loadVideo();
       btnStart.classList.remove("show");
       env1.classList.remove("up"); // thư trượt vào (~1s)
       await wait(1050);
@@ -1588,63 +1588,154 @@
       sh.classList.add("show"); // nhắc người xem cuộn
       await wait(3800);
       nextB.classList.add("show");
-      nextB.onclick = toVideo;
+      nextB.onclick = toFinale;
     }
 
-    /* -------------------- 3. VIDEO + chữ kết -------------------- */
-    const vid = $("#vid"),
-      vidWrap = $("#vidWrap"),
-      veil = $("#veil");
-    let vk = 0,
-      vLoaded = false,
-      vDone = false,
-      vStarted = false;
-    function loadVideo() {
-      if (vLoaded) return;
-      vLoaded = true;
-      const t = () => {
-        if (vk >= CONFIG.video.length) {
-          if (vStarted) finale();
-          return;
+    /* -------------------- 3. CHUYỂN CẢNH: thư + ảnh + chữ TAN RÃ thành đốm sáng -> cảnh quét vân tay --------------------
+       (thay cho video cũ). Toàn bộ vẽ trên MỘT canvas với số hạt cố định (tái sử dụng, không tạo phần tử mới);
+       màn nền tối phủ dần từ trên xuống bằng transform (chạy trên GPU), mép tan rã nhả các đốm sáng bay lên.
+       Chỉnh số hạt: CONFIG.density.dissolveCount / dissolveCountLite. Chỉnh thời gian: CONFIG.dissolveMs. */
+    const veil = $("#veil");
+    let vDone = false;
+    const dissolve = (rects, T) => {
+      const D = CONFIG.density,
+        N = LITE ? D.dissolveCountLite : D.dissolveCount,
+        X0 = new Float32Array(N),
+        Y0 = new Float32Array(N),
+        DL = new Float32Array(N), // lúc bắt đầu bay (ms)
+        LF = new Float32Array(N), // thời lượng sống (ms)
+        RS = new Float32Array(N), // độ bay lên (px)
+        DX = new Float32Array(N), // trôi ngang (px)
+        PH = new Float32Array(N),
+        SZ = new Float32Array(N),
+        CI = new Uint8Array(N),
+        spr = ["#ffe3ef", "#ffb8d4", "#ff8fbd", "#ff7db0", "#ff5c9a"].map((c) =>
+          sprite(c, 16, false),
+        ),
+        w = innerWidth,
+        h = innerHeight,
+        tot = rects.reduce((s, r) => s + r.wt, 0) || 1;
+      for (let i = 0; i < N; i++) {
+        let u = Math.random() * tot,
+          r = rects[0];
+        for (const q of rects) {
+          if ((u -= q.wt) <= 0) {
+            r = q;
+            break;
+          }
         }
-        vid.src = CONFIG.video[vk++];
-        vid.preload = "auto";
-        vid.load();
-      };
-      vid.addEventListener("error", () => (vStarted ? finale() : t()));
-      vid.addEventListener("ended", () => finale());
-      vid.addEventListener("pause", () => {
-        if (!vid.ended && !vDone && document.body.dataset.stage === "vs")
-          vid.play().catch(() => {});
+        const x = r.x + Math.random() * r.w,
+          y = r.y + Math.random() * r.h,
+          // thời điểm mép tan rã quét qua vị trí này (mép đi từ trên xuống dưới, tuyến tính theo thời gian)
+          edge = clamp((y + 0.15 * h) / (1.3 * h), 0, 1) * T;
+        X0[i] = x;
+        Y0[i] = y;
+        DL[i] = Math.max(0, edge - 160 + Math.random() * 260);
+        LF[i] = rand(1500, 2400);
+        RS[i] = rand(90, 380);
+        DX[i] = rand(-40, 40);
+        PH[i] = rand(0, 6.283);
+        SZ[i] = rand(5, 10);
+        CI[i] = r.warm
+          ? 2 + ((Math.random() * 3) | 0)
+          : (Math.random() * 4) | 0;
+      }
+      const cv = document.createElement("canvas"),
+        dpr = Math.min(window.devicePixelRatio || 1, LITE ? 1 : 1.5);
+      cv.width = Math.round(w * dpr);
+      cv.height = Math.round(h * dpr);
+      cv.style.cssText =
+        "position:fixed;left:0;top:0;width:100%;height:100%;z-index:36;pointer-events:none";
+      document.body.appendChild(cv);
+      const c = cv.getContext("2d"),
+        end = T + 2500;
+      return new Promise((res) => {
+        const t0 = performance.now();
+        const draw = (now) => {
+          const t = now - t0;
+          c.setTransform(dpr, 0, 0, dpr, 0, 0);
+          c.clearRect(0, 0, w, h);
+          c.globalCompositeOperation = "lighter";
+          for (let i = 0; i < N; i++) {
+            const f = (t - DL[i]) / LF[i];
+            if (f <= 0 || f >= 1) continue;
+            const e = f * f * (3 - 2 * f), // êm lúc bắt đầu bay, nhanh dần rồi chậm lại
+              a = Math.min(f / 0.1, 1) * (f < 0.5 ? 1 : 1 - (f - 0.5) / 0.5),
+              s = SZ[i] * (1.1 - 0.5 * f);
+            c.globalAlpha = a * 0.95;
+            c.drawImage(
+              spr[CI[i]],
+              X0[i] + DX[i] * e + Math.sin(PH[i] + t * 0.002) * 7 * f - s / 2,
+              Y0[i] - RS[i] * e - s / 2,
+              s,
+              s,
+            );
+          }
+          c.globalAlpha = 1;
+          if (t < end) requestAnimationFrame(draw);
+          else {
+            cv.remove();
+            res();
+          }
+        };
+        requestAnimationFrame(draw);
       });
-      document.addEventListener("visibilitychange", () => {
-        if (!document.hidden && vStarted && !vDone && !vid.ended)
-          vid.play().catch(() => {});
-      });
-      vid.addEventListener("contextmenu", (e) => e.preventDefault());
-      t();
-    }
-    async function toVideo() {
+    };
+    async function toFinale() {
+      if (vDone) return;
+      vDone = true;
       nextB.onclick = null;
       nextB.classList.remove("show");
+      hint.classList.remove("show");
       stopFx();
-      Music.stop(1100);
-      veil.className = "veil on"; // chuyển cảnh: màn tối loang ra
-      await wait(1100);
+      const T = CONFIG.dissolveMs, // thời gian mép tan rã quét từ trên xuống dưới
+        Hv = innerHeight,
+        rects = [],
+        add = (el, wt, warm) => {
+          if (!el) return;
+          const r = el.getBoundingClientRect(),
+            x = Math.max(0, r.left),
+            y = Math.max(0, r.top),
+            ww = Math.min(innerWidth, r.right) - x,
+            hh = Math.min(Hv, r.bottom) - y;
+          if (ww > 6 && hh > 6)
+            rects.push({ x, y, w: ww, h: hh, wt: ww * hh * wt, warm });
+        };
+      add($(".e-letter", wrap2), 1, false); // tờ thư (trắng/hồng nhạt)
+      add($(".env", wrap2), 0.7, true); // thân phong bì (hồng)
+      $$(".fp").forEach((p) => add(p, 2.5, true)); // từng tấm ảnh nhỏ bay quanh
+      Music.stop(Math.round(T * 1.2)); // nhạc cảnh thư nhỏ dần theo hiệu ứng
+      // màn nền (cùng màu nền cảnh đốm sáng) phủ dần từ trên xuống: mép mềm 30% màn hình, chỉ dùng transform
+      const vl = document.createElement("div");
+      vl.style.cssText = `position:fixed;left:0;top:0;width:100%;height:${(Hv * 1.3).toFixed(0)}px;z-index:34;pointer-events:none;will-change:transform;background:linear-gradient(180deg,#04010a 0,#04010a 76.9%,rgba(4,1,10,0) 100%)`;
+      document.body.appendChild(vl);
+      const sweep = vl.animate(
+        [
+          { transform: `translate3d(0,${(-Hv * 1.3).toFixed(0)}px,0)` },
+          { transform: "translate3d(0,0,0)" },
+        ],
+        { duration: T, easing: "linear", fill: "forwards" },
+      );
+      if (!rects.length)
+        rects.push({
+          x: innerWidth * 0.2,
+          y: Hv * 0.25,
+          w: innerWidth * 0.6,
+          h: Hv * 0.5,
+          wt: 1,
+          warm: false,
+        });
+      const dis = dissolve(rects, T);
+      await new Promise((r) => (sweep.onfinish = r));
+      // màn đã phủ kín (cùng màu nền cảnh cuối) -> đổi cảnh ngay phía sau, người xem không thấy mối nối
+      S.vs.classList.add("no-fade");
       show("vs");
-      await frame();
       S.vs.classList.add("on");
-      veil.className = "veil off";
-      vStarted = true;
-      vid.currentTime = 0;
-      vid.muted = false;
-      vid.play().catch(() => {
-        vid.muted = true;
-        vid.play().catch(() => {});
-      });
-      if (vk >= CONFIG.video.length && vid.error) finale();
-      await wait(1000);
-      veil.className = "veil";
+      vl.remove();
+      wrap2.innerHTML = "";
+      $$(".fly").forEach((n) => n.remove());
+      finale();
+      await dis;
     }
     async function type(el, txt) {
       el.innerHTML = [...txt]
@@ -2676,16 +2767,6 @@
     }
 
     async function finale() {
-      if (vDone) return;
-      vDone = true;
-      S.vs.classList.add("out"); // video mờ dần
-      await wait(1250);
-      try {
-        vid.pause();
-        vid.removeAttribute("src"); // ẩn hẳn + nhả bộ nhớ video
-        vid.load();
-      } catch (e) {}
-      vidWrap.style.visibility = "hidden";
       const Wv = S.vs.clientWidth,
         Hv = S.vs.clientHeight;
       S.vs.classList.add("fin");

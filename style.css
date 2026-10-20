@@ -1100,34 +1100,6 @@ body[data-stage="vs"] .bg {
 #vs {
   background: #04010a;
 }
-.vid-wrap {
-  position: relative;
-  height: min(calc(var(--sv) * 100 - 28px), calc((100vw - 20px) * 16 / 9));
-  aspect-ratio: 9/16;
-  border-radius: 26px;
-  overflow: hidden;
-  background: #000;
-  box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.12),
-    0 18px 60px rgba(255, 80, 160, 0.35);
-  opacity: 0;
-  transform: scale(0.96);
-  transition:
-    opacity 0.9s ease,
-    transform 1.1s var(--ease);
-}
-#vs.on .vid-wrap {
-  opacity: 1;
-  transform: none;
-}
-.vid-wrap video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-  background: #000;
-}
 .vs-text {
   position: absolute;
   left: 0;
@@ -1180,13 +1152,6 @@ body[data-stage="vs"] .bg {
    4. CẢNH CUỐI: video mờ đi -> đốm sáng/tim/hoa bay lên -> trái tim lớn xoay -> chữ
    (chỉ animate transform + opacity)
    ===================================================================== */
-#vs.out .vid-wrap {
-  opacity: 0;
-  transform: scale(1.05);
-  transition:
-    opacity 1.1s ease,
-    transform 1.3s ease;
-}
 .fin {
   position: absolute;
   inset: 0;
