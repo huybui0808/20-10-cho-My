@@ -176,14 +176,15 @@
       "Thì anh vẫn mãi muốn nắm đôi bàn tay",
       "Dắt theo những hy vọng", //v2
       " Đong đầy",
-      "",
+   
       "Dù cho mai về sau",
       "mình không bên cạnh nhau",
       "Làm tim anh quặn đau",
       "Anh trông ngóng bao nhiêu lâu",
       "Dù vương vấn u sầu",
-      "Mùa thu có phai màu anh vẫn muốn yêu em",
-      "",
+      "Mùa thu có phai màu",
+       "anh vẫn muốn yêu em",
+      
       "Dù cho muôn trùng phương",
       "Còn bao nhiêu lời thương",
       "Dù mênh mông đại dương",
