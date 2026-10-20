@@ -32,13 +32,13 @@
     // ===== CHỮ RƠI Ở CẢNH CUỐI (THỨ TỰ các câu ở dưới chính là thứ tự rơi; đếm "thứ N từ cuối" cho introFadeFromEnd/loveFromEnd phía trên dựa theo danh sách này): sửa/thêm các câu ở đây (rơi lần lượt, hết thì lặp lại, mỗi lần một màu) =====
     fallTexts: [
       "..........",
-      "Hello cậu nha",
-      "Đúng rồi cậu đó",
-      "Nay 20/10 ngày của cậu",
-      "Tôi muốn chúc cậu có ngày 20-10 thật tuyệt vời",
+      "Hello bạn nha",
+      "Đúng rồi bạn đó",
+      "Nay 20/10 ngày của bạn",
+      "Tôi muốn chúc bạn có ngày 20-10 thật tuyệt vời",
       "Có những phút giây hạnh phúc",
       "Có một ngày ngập tràn yêu thương",
-       "Tôi và bạn cũng đã chơi với nhau khác lâu rồi",
+       "Tôi và bạn cũng đã chơi với nhau khá lâu rồi",
        "Nhưng tôi thấy tôi không thích tình bạn này nữa",
        "Tôi muốn rằng bạn và tôi",
        "sẽ có một bước tiến mạnh hơn",
